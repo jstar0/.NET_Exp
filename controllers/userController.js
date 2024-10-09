@@ -2,9 +2,9 @@ const User = require('../models/User');
 
 // 用户注册逻辑
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
   try {
+    const { name, email, password } = req.body;
+    console.log("[registerUser] Got an request:", name, "with email:", email, "and password:", password);
     // 检查用户是否已经存在
     let user = await User.findOne({ email });
     if (user) {
@@ -27,17 +27,17 @@ const registerUser = async (req, res) => {
 
 // 用户登录逻辑
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const user = await User.findOne({ email });
+    const { name, password } = req.body;
+    console.log("[loginUser] Got an request:", name, "with password:", password);
+    const user = await User.findOne({ name });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ message: 'Invalid username or password' });
     }
 
     // 检查密码是否匹配（在此可以添加 bcrypt.compare 的逻辑）
     if (password !== user.password) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ message: 'Invalid username or password' });
     }
 
     res.status(200).json({ message: 'User logged in successfully', user });
@@ -48,15 +48,19 @@ const loginUser = async (req, res) => {
 
 // 获取用户信息
 const getUserProfile = async (req, res) => {
-  const userId = req.user.id;
-
   try {
-    const user = await User.findById(userId);
+    // 简单示例中，不需要验证 token
+    console.log("[getUserProfile] Got an request:", req.body.username);
+    const userName = req.body.username;
+    if (!userName) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+    const user = await User.findOne({ name: userName });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(user);
+    res.json({ name: user.name, email: user.email, createdAt: user.createdAt });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
