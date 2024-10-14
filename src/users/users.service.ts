@@ -18,11 +18,15 @@ export class UsersService {
     return this.users.find((user) => user.username === username);
   }
 
-  async create(user: IUsers): Promise<any> {
+  async create(user: IUsers): Promise<boolean> {
     this.users.push(user);
-    console.log(this.users);
+    //console.log(this.users);
     const result = { ...user };
     delete result.password;
-    return result;
+    return true;
+  }
+
+  async getUserProfile(username: string): Promise<any | undefined> {
+    return this.users.find((user) => user.username === username);
   }
 }

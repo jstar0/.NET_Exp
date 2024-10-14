@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { LoginUserDto, RegisterUserDto } from './dto/auth.dto';
 import * as bcrypt from 'bcryptjs';
+import { IUsers } from 'src/users/interfaces/users.interface';
 
 @Injectable()
 export class AuthService {
@@ -41,11 +42,23 @@ export class AuthService {
       throw new UnauthorizedException('User already exists');
     }
     const hashedPassword = bcrypt.hashSync(user.password, 10);
-    const newUser = {
-      userId: Date.now(),
+    const newUser: IUsers = {
       username: user.username,
       password: hashedPassword,
+      nickname: user.nickname || null,
+      qulification: user.qulification || null,
+      major: user.major || null,
+      selectedCourses: user.selectedCourses || [],
     };
-    return await this.userService.create(newUser);
+    if (!this.userService.create(newUser)) {
+      throw new UnauthorizedException('Failed to create user');
+    }
+    const payload = {
+      username: newUser.username,
+      sub: newUser.username,
+    };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
