@@ -1,11 +1,5 @@
-export class LoginUserDto {
+export class IUserProfile {
   username: string;
-  password: string;
-}
-
-export class RegisterUserDto {
-  username: string;
-  password: string;
   nickname?: string;
   qulification?: 'undergraduate' | 'bachlor' | 'doctor';
   major?: string;

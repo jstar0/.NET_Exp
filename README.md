@@ -44,6 +44,18 @@
 
 - 
 
+### 有意思的细节
+
+#### interface 和 DTO（Data Transfer Object）有不同。
+
+interface 就是 interface，而 DTO 是 class。
+
+interface 主要用于定义数据结构的类型。DTO 主要用于定义传输数据的结构，并进行数据验证。
+
+interface 在编译时被移除，不会在运行时存在。DTO 在运行时存在，可以进行数据验证。
+
+interface 不能进行数据验证。DTO 可以与 class-validator 等库一起使用，进行数据验证。
+
 ### To-do
 
 尝试 ApiFox 等工具，设计 API 文档，然后使用 Swagger 生成 API 文档。生成框架、测试用例（Mock）后再写实现。

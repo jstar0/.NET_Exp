@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { IUsers } from './interfaces/users.interface';
+import { IUserProfile } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +27,12 @@ export class UsersService {
     return true;
   }
 
-  async getUserProfile(username: string): Promise<any | undefined> {
-    return this.users.find((user) => user.username === username);
+  async getUserProfile(username: string): Promise<IUserProfile> {
+    const user = await this.findOne(username);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    delete user.password;
+    return user;
   }
 }
