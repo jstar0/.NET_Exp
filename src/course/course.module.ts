@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SelectController } from './select.controller';
-import { SelectService } from './select.service';
+import { SelectController } from './course.controller';
+import { SelectService } from './course.service';
 
 @Module({
   controllers: [SelectController],

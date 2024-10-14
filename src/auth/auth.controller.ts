@@ -9,4 +9,9 @@ export class AuthController {
   async login(@Request() req: any) {
     return await this.authService.login(req.body);
   }
+
+  @Post('register')
+  async register(@Request() req: any) {
+    return await this.authService.register(req.body);
+  }
 }
