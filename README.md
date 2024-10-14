@@ -23,5 +23,5 @@
 
 - 使用bcryptjs对用户密码进行加密。
 
-```npm install jsonwebtoken bcryptjs```
+    ```npm install jsonwebtoken bcryptjs```
 

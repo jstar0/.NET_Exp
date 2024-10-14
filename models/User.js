@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+  studentId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
@@ -9,6 +14,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+  },
+  academic: {
+    type: String,
+    enum: ["undergraduate", "graduate", "doctor"],
+    required: true,
   },
   password: {
     type: String,
