@@ -34,15 +34,28 @@
 
 ### Rate Limit
 
+不知为何，不可使用。后续修复。
+
 - 使用 `nestjs-rate-limiter` 这个 Middleware 进行限流。
 
         npm install @nestjs/throttler
 
 - `ThrottlerModule` 进行全局限制。
 
-- 装饰器 `@Throttle()` 进行局部限制。
+特别注意：市面上的文档都没有对 Throttler 的最新更改进行标注。我们应该转而使用
 
-- 
+```
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60,
+          limit: 20,
+        },
+      ],
+    }),
+```
+
+- 装饰器 `@Throttle()` 进行局部限制。
 
 ### 有意思的细节
 
@@ -58,4 +71,6 @@ interface 不能进行数据验证。DTO 可以与 class-validator 等库一起�
 
 ### To-do
 
-尝试 ApiFox 等工具，设计 API 文档，然后使用 Swagger 生成 API 文档。生成框架、测试用例（Mock）后再写实现。
+- 尝试 ApiFox 等工具，设计 API 文档，然后使用 Swagger 生成 API 文档。生成框架、测试用例（Mock）后再写实现。
+
+- 修复 Rate Limit。

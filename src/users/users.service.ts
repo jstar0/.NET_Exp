@@ -7,7 +7,7 @@ export class UsersService {
   private readonly users: IUsers[] = [
     {
       username: 'test',
-      password: '$2a$10$J8OUwvXoyGExqEKC4yFDDuww8TifYO71GC5zFCLBBEpDpVqUlY9wK',
+      password: '$2a$10$xjFpluOOWFVlI6YK.vmGDeNmjwR3/t4uCBA.GlrCc1ypfze8Z5C4u',
       nickname: 'test',
       qulification: 'undergraduate',
       major: 'test',
