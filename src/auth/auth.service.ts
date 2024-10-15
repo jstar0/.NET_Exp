@@ -15,9 +15,8 @@ export class AuthService {
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findOne(username);
     if (user && bcrypt.compareSync(password, user.password)) {
-      const result = { ...user };
-      delete result.password;
-      return result;
+      delete user.password;
+      return user;
     }
     return null;
   }
@@ -29,7 +28,6 @@ export class AuthService {
     }
     const payload = {
       username: validatedUser.username,
-      sub: validatedUser.userId,
     };
     return {
       access_token: this.jwtService.sign(payload),
@@ -55,7 +53,6 @@ export class AuthService {
     }
     const payload = {
       username: newUser.username,
-      sub: newUser.username,
     };
     return {
       access_token: this.jwtService.sign(payload),
