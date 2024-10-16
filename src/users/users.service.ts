@@ -27,6 +27,8 @@ export class UsersService {
     }
     const userObj = user.toObject();
     delete userObj.password;
+    delete userObj._id;
+    delete userObj.__v;
     return userObj;
   }
 }

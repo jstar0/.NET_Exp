@@ -1,8 +1,8 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SelectService } from './course.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@Controller('select')
+@Controller('courses')
 export class SelectController {
   constructor(private readonly selectService: SelectService) {}
 
@@ -10,5 +10,29 @@ export class SelectController {
   @Get()
   getDefaultMessage() {
     return this.selectService.getDefaultMessage();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('list')
+  getCourseList() {
+    return this.selectService.getCourseList();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('detail')
+  getCourseDetails() {
+    return 'Course details';
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('select')
+  selectCourse() {
+    return 'Course selected';
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('deselect')
+  deselectCourse() {
+    return 'Course deselected';
   }
 }
