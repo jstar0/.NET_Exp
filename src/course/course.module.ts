@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
-import { SelectController } from './course.controller';
-import { SelectService } from './course.service';
+import { CourseController } from './course.controller';
+import { CourseService } from './course.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Course, CourseSchema } from './schemas/course.schema';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
+    UsersModule,
   ],
-  controllers: [SelectController],
-  providers: [SelectService],
+  controllers: [CourseController],
+  providers: [CourseService],
 })
 export class SelectModule {}

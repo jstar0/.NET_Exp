@@ -16,6 +16,32 @@
 
         curl -X GET http://localhost:5000/users/profile -H "Authorization: Bearer $TOKEN"
 
+- 获取完整的课程列表
+
+        curl -X GET http://localhost:5000/courses/list -H "Authorization: Bearer $TOKEN"
+
+- 按类型获取课程列表
+
+        curl -X GET http://localhost:5000/courses/search/qualification/bachelor -H "Authorization: Bearer $TOKEN"
+
+- 选课
+
+        curl -X POST http://localhost:5000/courses/select -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
+
+- 退课
+
+        curl -X POST http://localhost:5000/courses/deselect -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
+
+
+- 创建课程
+
+        curl -X POST http://localhost:5000/courses/admin/create -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1, "name": "信息系统开发(.NET)", "qualification": "undergraduate", "major": "cs", "description": "这是一门学习.NET的课程。"}'
+
+- 移除课程
+
+        curl -X POST http://localhost:5000/courses/admin/delete -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
+
+
 ### Auth
 
 #### 在用户登录和获取用户信息时使用 JWT（JSON Web Token）。

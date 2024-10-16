@@ -12,7 +12,10 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<any | undefined> {
-    return this.usersModel.findOne({ username }).exec();
+    return this.usersModel
+      .findOne({ username })
+      .select('-__v -_id -password')
+      .exec();
   }
 
   async create(user: IUsers): Promise<Users> {
@@ -20,15 +23,23 @@ export class UsersService {
     return createdUser.save();
   }
 
+  async addCourseId(username: string, addedCourseId: number): Promise<any> {
+    return this.usersModel
+      .updateOne({ username }, { $push: { selectedCourses: addedCourseId } })
+      .exec();
+  }
+
+  async removeCourseId(username: string, removeCourseId: number): Promise<any> {
+    return this.usersModel
+      .updateOne({ username }, { $pull: { selectedCourses: removeCourseId } })
+      .exec();
+  }
+
   async getUserProfile(username: string): Promise<IUserProfile> {
     const user = await this.findOne(username);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const userObj = user.toObject();
-    delete userObj.password;
-    delete userObj._id;
-    delete userObj.__v;
-    return userObj;
+    return user as IUserProfile;
   }
 }

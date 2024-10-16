@@ -21,7 +21,7 @@ export class Users extends Document implements IUsers {
   @Prop()
   major: string;
 
-  @Prop()
+  @Prop({ type: [Number] })
   selectedCourses: number[];
 }
 
