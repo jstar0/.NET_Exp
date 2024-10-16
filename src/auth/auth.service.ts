@@ -44,7 +44,7 @@ export class AuthService {
       username: user.username,
       password: hashedPassword,
       nickname: user.nickname || null,
-      qulification: user.qulification || null,
+      qualification: user.qualification || null,
       major: user.major || null,
       selectedCourses: user.selectedCourses || [],
     };

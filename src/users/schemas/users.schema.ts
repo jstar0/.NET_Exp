@@ -16,7 +16,7 @@ export class Users extends Document implements IUsers {
   nickname: string;
 
   @Prop()
-  qulification: 'undergraduate' | 'bachlor' | 'doctor';
+  qualification: 'undergraduate' | 'bachelor' | 'doctor';
 
   @Prop()
   major: string;

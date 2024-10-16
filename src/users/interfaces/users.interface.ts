@@ -2,7 +2,7 @@ export interface IUsers {
   username: string;
   password: string;
   nickname?: string;
-  qulification?: 'undergraduate' | 'bachlor' | 'doctor';
+  qualification?: 'undergraduate' | 'bachelor' | 'doctor';
   major?: string;
   selectedCourses?: number[];
 }

@@ -1,7 +1,7 @@
 export class IUserProfile {
   username: string;
   nickname?: string;
-  qulification?: 'undergraduate' | 'bachlor' | 'doctor';
+  qualification?: 'undergraduate' | 'bachelor' | 'doctor';
   major?: string;
   selectedCourses?: number[];
 }
