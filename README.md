@@ -32,11 +32,19 @@
 
 #### 使用 `bcryptjs` 对用户密码进行加盐地加密。
 
-### 连接到 MongoDB 的方法
+### MongoDB
+
+#### 连接到 MongoDB 的方法
 
 - 先创建对应的 Schemas 和 Models。参见 `/src/users/schemas/users.schema.ts`。
 
 - Model 在 `/src/users/users.module.ts` 中导入，在 `/src/users/users.service.ts` 中使用。
+
+#### 免费数据库
+
+- 用 @jstar0 GitHub 账号
+
+- 申请在 [MongoDB Atlas](cloud.mongodb.com) 上的免费数据库
 
 ### Rate Limit
 

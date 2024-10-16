@@ -1,5 +1,6 @@
 import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SelectService } from './course.service';
+import { ICourse } from './interfaces/course.interface';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('courses')
