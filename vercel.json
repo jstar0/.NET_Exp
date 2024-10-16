@@ -1,8 +1,17 @@
 {
-  "build": {
-    "env": {
-    }
-  },
+  "version": 2,
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm exec nest build"
+  "buildCommand": "pnpm exec nest build",
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/main.js"
+    }
+  ]
 }
