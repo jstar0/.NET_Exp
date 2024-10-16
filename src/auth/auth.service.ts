@@ -30,10 +30,11 @@ export class AuthService {
       username: validatedUser.username,
     };
     return {
+      statusCode: 200,
       access_token: this.jwtService.sign(payload),
     };
   }
-  
+
   async register(user: RegisterUserDto) {
     const findUser = await this.userService.findOne(user.username);
     if (findUser) {
@@ -55,6 +56,7 @@ export class AuthService {
       username: newUser.username,
     };
     return {
+      statusCode: 201,
       access_token: this.jwtService.sign(payload),
     };
   }

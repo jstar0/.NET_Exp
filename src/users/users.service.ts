@@ -12,10 +12,7 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<any | undefined> {
-    return this.usersModel
-      .findOne({ username })
-      .select('-__v -_id -password')
-      .exec();
+    return this.usersModel.findOne({ username }).select('-__v -_id').exec();
   }
 
   async create(user: IUsers): Promise<Users> {
@@ -40,6 +37,42 @@ export class UsersService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return user as IUserProfile;
+    const userObj = user.toObject();
+    delete userObj.password;
+    userObj.statusCode = 200;
+    return userObj;
+  }
+
+  async updateUserProfile(username: string, body: Users): Promise<object> {
+    const user = await this.findOne(username);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    if (body.username != username) {
+      throw new UnauthorizedException(
+        'You may not change your username, so no changes applied',
+      );
+    }
+    if (body.password) {
+      user.password = body.password;
+    }
+    if (body.nickname) {
+      user.nickname = body.nickname;
+    }
+    if (
+      body.qualification &&
+      ['undergraduate', 'bachelor', 'doctor'].includes(body.qualification)
+    ) {
+      user.qualification = body.qualification;
+    }
+    if (body.major && typeof body.major === 'string') {
+      user.major = body.major;
+    }
+    await user.save();
+
+    return {
+      statusCode: 201,
+      message: 'Profile updated successfully',
+    };
   }
 }
