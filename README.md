@@ -109,6 +109,12 @@ interface 在编译时被移除，不会在运行时存在。DTO 在运行时存
 
 interface 不能进行数据验证。DTO 可以与 class-validator 等库一起使用，进行数据验证。
 
+### 使用 Vercel 持续集成
+
+不知为何，Vercel 对 NestJS 的支持并不好。采用 [这个](https://www.technog.com.br/blog/tips-and-tricks/how-to-deploy-a-nestjs-app-for-free-on-vercel/) 方法。
+
+- 本地执行 `vercel --prod`
+
 ### To-do
 
 - 尝试 ApiFox 等工具，设计 API 文档，然后使用 Swagger 生成 API 文档。生成框架、测试用例（Mock）后再写实现。
