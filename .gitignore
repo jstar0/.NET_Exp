@@ -1,56 +1,118 @@
-# compiled output
-/dist
-/node_modules
-/build
+# Visual Studio C# .NET 项目
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+bin/
+obj/
 
-# Logs
-logs
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+.history/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNet specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# StyleCop
+StyleCopReport.xml
+
+# Files built by Visual Studio
+*.pdb
+*.exe
+*.dll
+*.app
 *.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+*.vspscc
+*.vssscc
+*.cache
+*.ilk
+*.ncb
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
 
-# OS
-.DS_Store
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
 
-# Tests
-/coverage
-/.nyc_output
+# TFS 2012 Local Workspace
+$tf/
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# Guidance Automation Toolkit
+*.gpState
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
 
-# temp directory
-.temp
-.tmp
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Microsoft Fakes
+FakesAssemblies/
 
-# Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Windows Store app package directories and files
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Others
+*.DS_Store
+*.pyc
+*.pyo
+*.pyd
+*.pidb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
