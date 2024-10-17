@@ -129,7 +129,7 @@ interface 不能进行数据验证。DTO 可以与 class-validator 等库一起�
 
 不知为何，Vercel 对 NestJS 的支持并不好。采用 [这个](https://www.technog.com.br/blog/tips-and-tricks/how-to-deploy-a-nestjs-app-for-free-on-vercel/) 方法。
 
-- 本地执行 `vercel --prod`
+- 本地执行 `pnpm run build && vercel --prod`
 
 ### To-do
 

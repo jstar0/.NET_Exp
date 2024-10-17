@@ -4,7 +4,11 @@ import pandas as pd
 import json
 
 # MongoDB URL
-mongo_url = "mongodb+srv://jstar:jeH69A2jQMSPY1iG@jstar0.y0l88.mongodb.net/dotNet_exp?retryWrites=true&w=majority&appName=dotNet-exp"
+# 加载同目录下 .env 文件
+from dotenv import load_dotenv
+import os
+load_dotenv()
+mongo_url = os.getenv("MONGO_URL")
 
 # Connect to MongoDB
 client = MongoClient(mongo_url, server_api=ServerApi('1'))
