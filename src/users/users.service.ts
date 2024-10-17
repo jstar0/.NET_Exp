@@ -12,7 +12,7 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<any | undefined> {
-    return this.usersModel.findOne({ username }).select('-__v -_id').exec();
+    return this.usersModel.findOne({ username: username }).exec();
   }
 
   async create(user: IUsers): Promise<Users> {
@@ -39,6 +39,8 @@ export class UsersService {
     }
     const userObj = user.toObject();
     delete userObj.password;
+    delete userObj._id;
+    delete userObj.__v;
     userObj.statusCode = 200;
     return userObj;
   }
@@ -47,11 +49,6 @@ export class UsersService {
     const user = await this.findOne(username);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
-    }
-    if (body.username != username) {
-      throw new UnauthorizedException(
-        'You may not change your username, so no changes applied',
-      );
     }
     if (body.password) {
       user.password = body.password;

@@ -16,6 +16,10 @@
 
         curl -X GET http://localhost:5000/users/profile -H "Authorization: Bearer $TOKEN"
 
+- 修改用户信息
+
+        curl -X POST http://localhost:5000/users/profile -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"nickname": "test2"}'
+
 - 获取完整的课程列表
 
         curl -X GET http://localhost:5000/courses/list -H "Authorization: Bearer $TOKEN"
