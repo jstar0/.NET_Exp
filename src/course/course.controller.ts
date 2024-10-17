@@ -41,6 +41,25 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('search/major/:major')
+  async searchCourseByMajor(@Param('major') major: string) {
+    return await this.courseService.searchCourseByMajor(major);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  //Get by q and major
+  @Get('search/qamajor/:q/:major')
+  async searchCourseByQualificationAndMajor(
+    @Param('q') qualification: string,
+    @Param('major') major: string,
+  ) {
+    return await this.courseService.searchCourseByQualificationAndMajor(
+      qualification,
+      major,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('admin/create')
   async createCourse(@Body() course: ICourse) {
     if (await this.courseService.createCourse(course))

@@ -21,19 +21,69 @@ export class CourseService {
   async findOne(courseId: string): Promise<ICourse> {
     const findedCourse = await this.courseModel
       .findOne({ id: courseId })
-      .select('-__v -_id')
+      .select('-__v')
       .exec();
-    return findedCourse as ICourse;
+    const findedCourseObj = findedCourse.toObject();
+    delete findedCourseObj._id;
+    return findedCourseObj as ICourse;
+  }
+
+  async fineByMajor(major: string): Promise<ICourse[]> {
+    const findedCourses = await this.courseModel
+      .find({ major })
+      .select('-__v')
+      .exec();
+    return findedCourses.map((course) => {
+      const courseObj = course.toObject();
+      delete courseObj._id;
+      return courseObj as ICourse;
+    });
+  }
+
+  async fineByQualification(qualification: string): Promise<ICourse[]> {
+    const findedCourses = await this.courseModel
+      .find({ qualification })
+      .select('-__v')
+      .exec();
+    return findedCourses.map((course) => {
+      const courseObj = course.toObject();
+      delete courseObj._id;
+      return courseObj as ICourse;
+    });
+  }
+
+  async fineByQualificationAndMajor(
+    qualification: string,
+    major: string,
+  ): Promise<ICourse[]> {
+    const findedCourses = await this.courseModel
+      .find({ qualification, major })
+      .select('-__v')
+      .exec();
+    return findedCourses.map((course) => {
+      const courseObj = course.toObject();
+      delete courseObj._id;
+      return courseObj as ICourse;
+    });
   }
 
   async matchCourseId(courseId: string): Promise<ICourse> {
     return await this.findOne(courseId);
   }
 
-  async searchCourseByQualification(
+  async searchCourseByMajor(major: string): Promise<ICourse[]> {
+    return await this.fineByMajor(major);
+  }
+
+  async searchCourseByQualification(qualification: string): Promise<ICourse[]> {
+    return await this.fineByQualification(qualification);
+  }
+
+  async searchCourseByQualificationAndMajor(
     qualification: string,
-  ): Promise<CourseDocument[]> {
-    return this.courseModel.find({ qualification }).exec();
+    major: string,
+  ): Promise<ICourse[]> {
+    return this.fineByQualificationAndMajor(qualification, major);
   }
 
   async createCourse(course: ICourse): Promise<boolean> {

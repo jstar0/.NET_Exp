@@ -7,7 +7,11 @@
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.12" // Specify the Python version you need
+		}
+	},
 
 	// Configure tool-specific properties.
 	"customizations": {

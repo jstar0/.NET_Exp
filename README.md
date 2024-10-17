@@ -28,6 +28,18 @@
 
         curl -X GET http://localhost:5000/courses/search/qualification/bachelor -H "Authorization: Bearer $TOKEN"
 
+- 按ID获取课程
+
+        curl -X GET http://localhost:5000/courses/search/courseId/1 -H "Authorization: Bearer $TOKEN"
+
+- 按专业获取课程列表
+
+        curl -X GET http://localhost:5000/courses/search/major/cs -H "Authorization: Bearer $TOKEN"
+
+- 按 类型 和 专业 获取课程
+
+        curl -X GET http://localhost:5000/courses/search/qamajor/bachelor/math -H "Authorization: Bearer $TOKEN"
+
 - 选课
 
         curl -X POST http://localhost:5000/courses/select -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
