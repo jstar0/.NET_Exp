@@ -89,7 +89,7 @@ export class CourseService {
     await user.save();
     return {
       statusCode: 201,
-      message: 'User profile updated successfully',
+      message: 'Course selection updated successfully',
     };
   }
 
@@ -109,7 +109,7 @@ export class CourseService {
     // 检查是否有权限选这门课
     if (
       user.qualification !== course.qualification ||
-      user.major !== course.major
+      (course.major !== 'common' && course.major !== user.major)
     ) {
       throw new NotAcceptableException('Not available course');
     }
