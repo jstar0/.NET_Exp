@@ -12,6 +12,6 @@ export class AppController {
 
   @Get('connectTest')
   getConnectTest(): string {
-    return 'OK';
+    return process.env.VERSION;
   }
 }
