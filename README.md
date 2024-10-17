@@ -40,14 +40,13 @@
 
         curl -X GET http://localhost:5000/courses/search/qamajor/bachelor/math -H "Authorization: Bearer $TOKEN"
 
-- 选课
+- 获取已选课程信息
 
-        curl -X POST http://localhost:5000/courses/select -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
+        curl -X GET http://localhost:5000/courses/selected -H "Authorization: Bearer $TOKEN"
 
-- 退课
+- 选课和退课（更新选课信息）
 
-        curl -X POST http://localhost:5000/courses/deselect -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"id": 1}'
-
+        curl -X POST http://localhost:5000/courses/update -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"selectedCourses":[1,4,6,7]}'
 
 - 创建课程
 
@@ -124,6 +123,10 @@ interface 主要用于定义数据结构的类型。DTO 主要用于定义传输
 interface 在编译时被移除，不会在运行时存在。DTO 在运行时存在，可以进行数据验证。
 
 interface 不能进行数据验证。DTO 可以与 class-validator 等库一起使用，进行数据验证。
+
+#### Post 请求的 Content-Type
+
+当客户端不使用 `application/json` 作为 Content-Type 时，后端无法将客户端的 Post 请求解析为 JSON 对象。
 
 ### 使用 Vercel 持续集成
 

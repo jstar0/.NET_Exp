@@ -8,7 +8,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Course, CourseDocument } from './schemas/course.schema';
 import { ICourse } from './interfaces/course.interface';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
+import { IUsers } from '../users/interfaces/users.interface';
 
 @Injectable()
 export class CourseService {
@@ -23,6 +24,9 @@ export class CourseService {
       .findOne({ id: courseId })
       .select('-__v')
       .exec();
+    if (!findedCourse) {
+      return null;
+    }
     const findedCourseObj = findedCourse.toObject();
     delete findedCourseObj._id;
     return findedCourseObj as ICourse;
@@ -65,6 +69,64 @@ export class CourseService {
       delete courseObj._id;
       return courseObj as ICourse;
     });
+  }
+
+  async updateCourseSelection(username: string, body: IUsers): Promise<object> {
+    const user = await this.usersService.findOne(username);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    if (body.selectedCourses && Array.isArray(body.selectedCourses)) {
+      // 对每个 courseId 进行 checkAvailability 检查
+      for (const courseId of body.selectedCourses) {
+        if (!(await this.checkCourseAvailability(courseId, user))) {
+          throw new NotAcceptableException('Not available course');
+        }
+      }
+      // 去重并更新 user.selectedCourses
+      user.selectedCourses = Array.from(new Set(body.selectedCourses));
+    }
+    await user.save();
+    return {
+      statusCode: 201,
+      message: 'User profile updated successfully',
+    };
+  }
+
+  async checkCourseAvailability(
+    courseId: number,
+    user: IUsers,
+  ): Promise<boolean> {
+    const course = await this.matchCourseId(courseId.toString());
+    if (!course) {
+      throw new NotAcceptableException('Course not found');
+    }
+    // 根据用户的 qualification 和 major 来检查是否有权限选这门课
+    // 从数据库中获取用户的 profile
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    // 检查是否有权限选这门课
+    if (
+      user.qualification !== course.qualification ||
+      user.major !== course.major
+    ) {
+      throw new NotAcceptableException('Not available course');
+    }
+    return true;
+  }
+
+  async getSelectedCourses(username: string): Promise<ICourse[]> {
+    const userProfile = await this.usersService.getUserProfile(username);
+    if (!userProfile) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const selectedCourses = await Promise.all(
+      userProfile.selectedCourses.map((courseId) =>
+        this.matchCourseId(courseId.toString()),
+      ),
+    );
+    return selectedCourses;
   }
 
   async matchCourseId(courseId: string): Promise<ICourse> {
@@ -110,68 +172,6 @@ export class CourseService {
     }
     this.courseModel.deleteOne({ id: courseId }).exec();
     return true;
-  }
-
-  async selectCourse(
-    selectedCourseId: number,
-    username: string,
-  ): Promise<ICourse> {
-    if (!selectedCourseId || isNaN(selectedCourseId) || selectedCourseId < 0) {
-      throw new NotAcceptableException('Invalid course ID');
-    }
-    // 从数据库中寻找 是否有 courseId 为 selectedCourseId 的课程
-    const selectedCourse = this.matchCourseId(selectedCourseId.toString());
-    if (!selectedCourse) {
-      throw new NotAcceptableException('Course not found');
-    }
-    // 用户信息有效否
-    const userProfile = await this.usersService.getUserProfile(username);
-    if (!userProfile) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    // 查找用户是否已经选择了这门课
-    const userCourseList = userProfile.selectedCourses;
-    if (userCourseList.includes(selectedCourseId)) {
-      throw new NotAcceptableException('Course already selected');
-    }
-
-    // 添加 courseId 到用户的 profile
-    if (await this.usersService.addCourseId(username, selectedCourseId))
-      return selectedCourse;
-    else throw new NotAcceptableException('Course selection failed');
-  }
-
-  async deselectCourse(
-    deselectedCourseId: number,
-    username: string,
-  ): Promise<ICourse> {
-    if (
-      !deselectedCourseId ||
-      isNaN(deselectedCourseId) ||
-      deselectedCourseId < 0
-    ) {
-      throw new NotAcceptableException('Invalid course ID');
-    }
-    const deselectedCourse = this.matchCourseId(deselectedCourseId.toString());
-    if (!deselectedCourse) {
-      throw new NotAcceptableException('Course not found');
-    }
-
-    const userProfile = await this.usersService.getUserProfile(username);
-    if (!userProfile) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    // 查找用户是否已经选择了这门课
-
-    const userCourseList = userProfile.selectedCourses;
-    if (!userCourseList.includes(deselectedCourseId)) {
-      throw new NotAcceptableException('Course not selected yet');
-    }
-
-    // 从用户的 profile 中删除 courseId
-    if (await this.usersService.removeCourseId(username, deselectedCourseId))
-      return deselectedCourse;
-    else throw new NotAcceptableException('Course deselection failed');
   }
 
   async getDefaultMessage(): Promise<string> {

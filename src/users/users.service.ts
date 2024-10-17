@@ -12,24 +12,15 @@ export class UsersService {
   ) {}
 
   async findOne(username: string): Promise<any | undefined> {
+    if (!username) {
+      return undefined;
+    }
     return this.usersModel.findOne({ username: username }).exec();
   }
 
   async create(user: IUsers): Promise<Users> {
     const createdUser = new this.usersModel(user);
     return createdUser.save();
-  }
-
-  async addCourseId(username: string, addedCourseId: number): Promise<any> {
-    return this.usersModel
-      .updateOne({ username }, { $push: { selectedCourses: addedCourseId } })
-      .exec();
-  }
-
-  async removeCourseId(username: string, removeCourseId: number): Promise<any> {
-    return this.usersModel
-      .updateOne({ username }, { $pull: { selectedCourses: removeCourseId } })
-      .exec();
   }
 
   async getUserProfile(username: string): Promise<IUserProfile> {

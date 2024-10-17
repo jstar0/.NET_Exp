@@ -6,6 +6,7 @@ import { Course, CourseSchema } from './schemas/course.schema';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
+  exports: [CourseService],
   imports: [
     MongooseModule.forFeature([{ name: Course.name, schema: CourseSchema }]),
     UsersModule,
@@ -13,4 +14,4 @@ import { UsersModule } from 'src/users/users.module';
   controllers: [CourseController],
   providers: [CourseService],
 })
-export class SelectModule {}
+export class CourseModule {}

@@ -5,7 +5,7 @@ import { AppController } from './default/app.controller';
 import { AppService } from './default/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SelectModule } from 'src/course/course.module';
+import { CourseModule } from 'src/course/course.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
@@ -23,7 +23,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
-    SelectModule,
+    CourseModule,
     AuthModule,
     UsersModule,
   ],

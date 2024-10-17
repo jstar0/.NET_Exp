@@ -11,6 +11,7 @@ import {
 import { CourseService } from './course.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ICourse } from './interfaces/course.interface';
+import { IUsers } from 'src/users/interfaces/users.interface';
 
 @Controller('courses')
 export class CourseController {
@@ -26,6 +27,12 @@ export class CourseController {
   @Get('list')
   async getCourseList() {
     return await this.courseService.getCourseList();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('selected')
+  async getSelectedCourses(@Req() req: any) {
+    return await this.courseService.getSelectedCourses(req.username);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -76,20 +83,8 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('select')
-  async selectCourse(@Body('id') selectedCourseId: number, @Req() req: any) {
-    return await this.courseService.selectCourse(
-      selectedCourseId,
-      req.username,
-    );
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('deselect')
-  async deselectCourse(@Body('id') selectedCourseId: number, @Req() req: any) {
-    return await this.courseService.deselectCourse(
-      selectedCourseId,
-      req.username,
-    );
+  @Post('update')
+  async updateCourse(@Body() body: IUsers, @Req() req: any) {
+    return await this.courseService.updateCourseSelection(req.username, body);
   }
 }
