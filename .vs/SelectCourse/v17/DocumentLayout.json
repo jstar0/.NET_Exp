@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\datainterface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:datainterface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\consolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:consolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\datainterface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:datainterface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\networkstack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:networkstack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|d:\\computerscience\\dotnet\\aaaclass\\k3\\1-selectcourse\\.net_exp\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{F9468843-B581-4A7C-8E00-04C120676FE5}|SelectCourseProgram.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,11 +30,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "App.config",
               "DocumentMoniker": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\App.config",
               "RelativeDocumentMoniker": "App.config",
@@ -50,39 +46,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "DataInterface.cs",
               "DocumentMoniker": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\DataInterface.cs",
               "RelativeDocumentMoniker": "DataInterface.cs",
               "ToolTip": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\DataInterface.cs",
               "RelativeToolTip": "DataInterface.cs",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAAAAUAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJ8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T18:13:24.338Z"
+              "WhenOpened": "2024-10-17T18:13:24.338Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "NetworkStack.cs",
               "DocumentMoniker": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\NetworkStack.cs",
               "RelativeDocumentMoniker": "NetworkStack.cs",
               "ToolTip": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\NetworkStack.cs",
               "RelativeToolTip": "NetworkStack.cs",
-              "ViewState": "AgIAAMUAAAAAAAAAAAAAAAMAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAALoAAAAAAAAAAAAAAEcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T13:52:35.882Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppSettings.cs",
-              "DocumentMoniker": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\AppSettings.cs",
-              "RelativeDocumentMoniker": "AppSettings.cs",
-              "ToolTip": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\AppSettings.cs",
-              "RelativeToolTip": "AppSettings.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T13:00:34.17Z"
+              "WhenOpened": "2024-10-17T13:52:35.882Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -92,22 +78,22 @@
               "RelativeDocumentMoniker": "ConsoleController.cs",
               "ToolTip": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\ConsoleController.cs",
               "RelativeToolTip": "ConsoleController.cs",
-              "ViewState": "AgIAAAQDAAAAAAAAAAAAAPwCAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAAAGUAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T07:53:54.71Z"
+              "WhenOpened": "2024-10-16T07:53:54.71Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "D:\\ComputerScience\\dotNet\\AAAClass\\K3\\1-SelectCourse\\.NET_Exp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAqwCcAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T02:44:03.474Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-16T02:44:03.474Z"
             }
           ]
         }

@@ -51,6 +51,9 @@ namespace SelectCourseProgram
 
         private static int SelectMenu(string[] options)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("控制使用 ( ↑ / ↓ / Enter）\n");
+            Console.ResetColor();
             var selectedIndex = 0;
             ConsoleKey key;
             do
