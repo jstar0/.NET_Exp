@@ -35,17 +35,11 @@ export class CourseController {
     return await this.courseService.getSelectedCourses(req.username);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('search/qualification/:q')
-  async searchCourseByQualification(@Param('q') qualification: string) {
-    return await this.courseService.searchCourseByQualification(qualification);
-  }
-
-  @UseGuards(JwtAuthGuard)
+  /*   @UseGuards(JwtAuthGuard)
   @Get('search/courseId/:id')
   async matchCourseId(@Param('id') courseId: string) {
     return await this.courseService.matchCourseId(courseId);
-  }
+  } */
 
   @UseGuards(JwtAuthGuard)
   @Get('search/major/:major')
@@ -53,7 +47,7 @@ export class CourseController {
     return await this.courseService.searchCourseByMajor(major);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /*   @UseGuards(JwtAuthGuard)
   //Get by q and major
   @Get('search/qamajor/:q/:major')
   async searchCourseByQualificationAndMajor(
@@ -64,7 +58,7 @@ export class CourseController {
       qualification,
       major,
     );
-  }
+  } */
 
   @UseGuards(JwtAuthGuard)
   @Post('admin/create')

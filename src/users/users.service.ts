@@ -41,21 +41,10 @@ export class UsersService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    if (body.password) {
-      user.password = body.password;
-    }
-    if (body.nickname) {
-      user.nickname = body.nickname;
-    }
-    if (
-      body.qualification &&
-      ['undergraduate', 'bachelor', 'doctor'].includes(body.qualification)
-    ) {
-      user.qualification = body.qualification;
-    }
-    if (body.major && typeof body.major === 'string') {
-      user.major = body.major;
-    }
+    // 导入信息
+    user.basic = body.basic;
+    user.family = body.family;
+    user.selectedCourses = body.selectedCourses;
     await user.save();
 
     return {

@@ -107,10 +107,7 @@ export class CourseService {
       throw new UnauthorizedException('Invalid credentials');
     }
     // 检查是否有权限选这门课
-    if (
-      user.qualification !== course.qualification ||
-      (course.major !== 'common' && course.major !== user.major)
-    ) {
+    if (course.major !== user.basic.major) {
       throw new NotAcceptableException('Not available course');
     }
     return true;

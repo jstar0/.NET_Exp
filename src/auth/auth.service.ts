@@ -44,10 +44,7 @@ export class AuthService {
     const newUser: IUsers = {
       username: user.username,
       password: hashedPassword,
-      nickname: user.nickname || null,
-      qualification: user.qualification || null,
-      major: user.major || null,
-      selectedCourses: user.selectedCourses || [],
+      schoolId: user.schoolId,
     };
     if (!this.userService.create(newUser)) {
       throw new UnauthorizedException('Failed to create user');

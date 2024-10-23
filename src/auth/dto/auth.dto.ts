@@ -4,10 +4,11 @@ export class LoginUserDto {
 }
 
 export class RegisterUserDto {
+  schoolId: string;
   username: string;
   password: string;
-  nickname?: string;
-  qualification?: 'undergraduate' | 'bachelor' | 'doctor';
-  major?: string;
-  selectedCourses?: number[];
+}
+
+export class ForgetUserDto {
+  schoolId: string;
 }

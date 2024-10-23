@@ -4,6 +4,52 @@ import { IUsers } from '../interfaces/users.interface';
 
 export type UserDocument = Users & Document;
 
+class BasicInfo {
+  @Prop()
+  name: string;
+
+  @Prop()
+  age: number;
+
+  @Prop()
+  gender: string;
+
+  @Prop()
+  ancestry: string;
+
+  @Prop()
+  political: string;
+
+  @Prop()
+  qualification: string;
+
+  @Prop()
+  major: string;
+
+  @Prop()
+  contact: string;
+
+  @Prop()
+  profile: string;
+}
+
+class FamilyInfo {
+  @Prop()
+  birth: string;
+
+  @Prop()
+  living: string;
+
+  @Prop()
+  zipCode: string;
+
+  @Prop()
+  homePhone: string;
+
+  @Prop()
+  address: string;
+}
+
 @Schema()
 export class Users extends Document implements IUsers {
   @Prop()
@@ -13,16 +59,16 @@ export class Users extends Document implements IUsers {
   password: string;
 
   @Prop()
-  nickname: string;
+  schoolId: string;
+
+  @Prop({ type: BasicInfo })
+  basic: BasicInfo;
 
   @Prop()
-  qualification: 'undergraduate' | 'bachelor' | 'doctor';
-
-  @Prop()
-  major: string;
-
-  @Prop({ type: [Number] })
   selectedCourses: number[];
+
+  @Prop({ type: FamilyInfo })
+  family: FamilyInfo;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

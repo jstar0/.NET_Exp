@@ -1,13 +1,12 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+import random
 import pandas as pd
 import json
 
 # MongoDB URL
-# 加载同目录下 .env 文件
-import os
-import random
-mongo_url = os.getenv("MONGO_URL")
+mongo_url = "mongodb+srv://jstar:O3v9V0dvadAqHZ7q@jstar0.y0l88.mongodb.net/dotNet_exp3?retryWrites=true&w=majority&appName=dotNet-exp3"
+
 # Connect to MongoDB
 client = MongoClient(mongo_url, server_api=ServerApi('1'))
 
@@ -20,14 +19,12 @@ client = MongoClient(mongo_url, server_api=ServerApi('1'))
 # major: cs, math, physics 之中随机的一个
 
 def generate_course_data(i):
-    qualifications = ['undergraduate', 'bachelor', 'doctor']
     majors = ['cs', 'math', 'physics']
     
     course_data = {
         'id': i,
-        'name': f'Course_{i}',
+        'name': f'学科_{i}',
         'description': f'Description of Course_{i}',
-        'qualification': random.choice(qualifications),
         'major': random.choice(majors)
     }
     
@@ -42,7 +39,7 @@ for i in range(41, 121):
 test_data = json.loads(json.dumps(test_data))
 
 # Insert data into MongoDB
-db = client.dotNet_exp
+db = client.dotNet_exp3
 collection = db.courses
 collection.insert_many(test_data)
 

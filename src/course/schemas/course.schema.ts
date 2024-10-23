@@ -13,9 +13,6 @@ export class Course extends Document implements ICourse {
   name: string;
 
   @Prop()
-  qualification: 'undergraduate' | 'bachelor' | 'doctor';
-
-  @Prop()
   major?: string;
 
   @Prop()

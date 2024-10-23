@@ -6,7 +6,7 @@
 
 - 注册
 
-        curl -X POST http://localhost:5000/auth/register -H "Content-Type: application/json" -d '{"username": "test", "password": "test", "nickname": "test"}'
+        curl -X POST http://localhost:5000/auth/register -H "Content-Type: application/json" -d '{"username": "test", "password": "test", "schoolId": "10000"}'
 
 - 登录
 
