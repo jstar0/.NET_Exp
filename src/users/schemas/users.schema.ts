@@ -48,6 +48,9 @@ class FamilyInfo {
 
   @Prop()
   address: string;
+
+  @Prop()
+  livingInCity: boolean;
 }
 
 @Schema()
@@ -69,6 +72,9 @@ export class Users extends Document implements IUsers {
 
   @Prop({ type: FamilyInfo })
   family: FamilyInfo;
+
+  @Prop()
+  photo: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

@@ -101,13 +101,13 @@ export class CourseService {
     if (!course) {
       throw new NotAcceptableException('Course not found');
     }
-    // 根据用户的 qualification 和 major 来检查是否有权限选这门课
+    // 根据用户的 major 来检查是否有权限选这门课
     // 从数据库中获取用户的 profile
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
     // 检查是否有权限选这门课
-    if (course.major !== user.basic.major) {
+    if (course.major !== 'common' && course.major !== user.basic.major) {
       throw new NotAcceptableException('Not available course');
     }
     return true;

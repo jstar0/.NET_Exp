@@ -37,7 +37,8 @@ export class AuthService {
 
   async register(user: RegisterUserDto) {
     const findUser = await this.userService.findOne(user.username);
-    if (findUser) {
+    const findUserById = await this.userService.findOneById(user.schoolId);
+    if (findUser || findUserById) {
       throw new UnauthorizedException('User already exists');
     }
     const hashedPassword = bcrypt.hashSync(user.password, 10);

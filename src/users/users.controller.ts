@@ -17,4 +17,10 @@ export class UsersController {
   async updateProfile(@Req() req: any) {
     return await this.usersService.updateUserProfile(req.username, req.body);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('photo')
+  async getPhoto(@Req() req: any) {
+    return await this.usersService.getUserPhoto(req.username);
+  }
 }

@@ -20,5 +20,7 @@ export interface IUsers {
     zipCode: string;
     homePhone: string;
     address: string;
+    livingInCity: boolean;
   };
+  photo?: string;
 }

@@ -18,7 +18,35 @@
 
 - 修改用户信息
 
-        curl -X POST http://localhost:5000/users/profile -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"nickname": "test2"}'
+        curl -X POST http://localhost:5000/users/profile \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $TOKEN" \
+        -d '{
+        "basic": {
+                "name": "Test User",
+                "age": 25,
+                "gender": "male",
+                "ancestry": "Asian",
+                "political": "None",
+                "qualification": "bachelor",
+                "major": "cs",
+                "contact": "testuser@example.com",
+                "profile": "This is a test user profile."
+        },
+        "selectedCourses": [1, 2, 3],
+        "family": {
+                "birth": "1995-01-01",
+                "living": "City",
+                "zipCode": "123456",
+                "homePhone": "123-456-7890",
+                "address": "123 Test St, Test City, TC"
+        }
+        "photo": "BASE64TEXT_HERE"
+        }'
+
+- 上传头像
+
+        curl -X POST http://localhost:5000/users/photo -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d '{"photo": "base64test"}'
 
 - 获取完整的课程列表
 
