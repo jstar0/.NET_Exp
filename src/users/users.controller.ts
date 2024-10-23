@@ -6,6 +6,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post('bySchoolId')
+  async getUserBySchoolId(@Req() req: any) {
+    return await this.usersService.getUserBySchoolId(req.body.schoolId);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async getProfile(@Req() req: any) {
@@ -22,5 +27,11 @@ export class UsersController {
   @Get('photo')
   async getPhoto(@Req() req: any) {
     return await this.usersService.getUserPhoto(req.username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('photo')
+  async updatePhoto(@Req() req: any) {
+    return await this.usersService.updateUserPhoto(req.username, req.body);
   }
 }

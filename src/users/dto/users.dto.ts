@@ -23,3 +23,7 @@ export interface IUserProfile {
   };
   photo?: string;
 }
+
+export interface IUserPhoto {
+  photo: string;
+}

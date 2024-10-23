@@ -12,6 +12,10 @@
 
         curl -X POST http://localhost:5000/auth/login -H "Content-Type: application/json" -d '{"username": "test", "password": "test"}'
 
+- 根据学号查询用户
+
+        curl -X POST http://localhost:5000/users/bySchoolId -H "Content-Type: application/json" -d '{"schoolId": "10000"}'
+
 - 获取用户信息
 
         curl -X GET http://localhost:5000/users/profile -H "Authorization: Bearer $TOKEN"

@@ -20,9 +20,9 @@ export class UsersService {
 
   async findOneById(schoolId: string): Promise<any | undefined> {
     if (!schoolId) {
+      console.log('No schoolId');
       return undefined;
     }
-    console.log(schoolId);
     return this.usersModel.findOne({ schoolId: schoolId }).exec();
   }
 
@@ -63,26 +63,32 @@ export class UsersService {
     };
   }
 
-  async updateUserPhoto(username: any, body: IUserPhoto): Promise<object> {
-    const user = await this.findOne(username);
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-    // 解析 { photo: 'base64' }，存入数据库
-    user.photo = body.photo;
-    await user.save();
-
-    return {
-      statusCode: 201,
-      message: 'Photo updated successfully',
-    };
-  }
-
   async getUserPhoto(username: any) {
     const user = await this.findOne(username);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return user.photo;
+  }
+
+  async getUserBySchoolId(schoolId: string): Promise<string> {
+    const user = await this.findOneById(schoolId);
+    if (!user) {
+      return 'No user found';
+    }
+    return user.username;
+  }
+
+  async updateUserPhoto(username: any, body: IUserPhoto): Promise<object> {
+    const user = await this.findOne(username);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    user.photo = body.photo;
+    await user.save();
+    return {
+      statusCode: 201,
+      message: 'Photo updated successfully',
+    };
   }
 }
