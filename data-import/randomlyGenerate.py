@@ -5,7 +5,7 @@ import pandas as pd
 import json
 
 # MongoDB URL
-mongo_url = "mongodb+srv://jstar:O3v9V0dvadAqHZ7q@jstar0.y0l88.mongodb.net/dotNet_exp3?retryWrites=true&w=majority&appName=dotNet-exp3"
+mongo_url = ""
 
 # Connect to MongoDB
 client = MongoClient(mongo_url, server_api=ServerApi('1'))
