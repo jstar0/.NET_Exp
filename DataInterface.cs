@@ -7,37 +7,77 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.ApplicationServices;
 
-namespace SelectCourseProgram
+namespace StudentInformationEntrySystem
 {
-    /*
-        export interface IUsers {
-             username: string;
-             password: string;
-             nickname?: string;
-             qualification?: 'undergraduate' | 'bachelor' | 'doctor';
-             major?: string;
-             selectedCourses?: number[];
+    public class Users
+    {
+        public string? username { get; set; }
+        public string? password { get; set; }
+        public string? schoolId { get; set; }
+        public BasicInfo? basic { get; set; }
+        public List<int>? selectedCourses { get; set; }
+        public FamilyInfo? family { get; set; }
+        public string? photo { get; set; }
+
+        public Users(string username, string password, string schoolId, BasicInfo? basic = null, List<int>? selectedCourses = null, FamilyInfo? family = null)
+        {
+            this.username = username;
+            this.password = password;
+            this.schoolId = schoolId;
+            this.basic = basic;
+            this.selectedCourses = selectedCourses;
+            this.family = family;
         }
 
-        export interface ICourse {
-             id: number;
-             name: string;
-             qualification: 'undergraduate' | 'bachelor' | 'doctor';
-             major?: string;
-             description?: string;
-        }
-    */
-    public class Users(string? username, string? password, string? nickname, string? qualification, string? major, int[]? selectedCourses)
+        public Users() {}
+    }
+
+    public class BasicInfo
     {
-        public Users()
-            : this(null, null, null, null, null, null) { }
-        public string? username { get; set; } = username;
-        public string? password { get; set; } = password;
-        public string? nickname { get; set; } = nickname;
-        public string? qualification { get; set; } = qualification;
-        public string? major { get; set; } = major;
-        public int[]? selectedCourses { get; set; } = selectedCourses;
+        public string name { get; set; }
+        public int age { get; set; }
+        public string gender { get; set; }
+        public string ancestry { get; set; }
+        public string political { get; set; }
+        public string qualification { get; set; }
+        public string major { get; set; }
+        public string contact { get; set; }
+        public string profile { get; set; }
+
+        public BasicInfo(string name, int age, string gender, string ancestry, string political, string qualification, string major, string contact, string profile)
+        {
+            this.name = name;
+            this.age = age;
+            this.gender = gender;
+            this.ancestry = ancestry;
+            this.political = political;
+            this.qualification = qualification;
+            this.major = major;
+            this.contact = contact;
+            this.profile = profile;
+        }
+    }
+
+    public class FamilyInfo
+    {
+        public string birth { get; set; }
+        public string living { get; set; }
+        public string zipCode { get; set; }
+        public string homePhone { get; set; }
+        public string address { get; set; }
+        public bool livingInCity { get; set; }
+
+        public FamilyInfo(string birth, string living, string zipCode, string homePhone, string address, bool livingInCity)
+        {
+            this.birth = birth;
+            this.living = living;
+            this.zipCode = zipCode;
+            this.homePhone = homePhone;
+            this.address = address;
+            this.livingInCity = livingInCity;
+        }
     }
 
     public class UsersLoginInfo(string? username, string? password)
@@ -48,11 +88,28 @@ namespace SelectCourseProgram
         public string? password { get; set; } = password;
     }
 
+    public class UsersRegisterInfo(string? username, string? password, string? schoolId)
+    {
+        public UsersRegisterInfo()
+            : this(null, null, null) { }
+        public string? username { get; set; } = username;
+        public string? password { get; set; } = password;
+        public string? schoolId { get; set; } = schoolId;
+    }
+
+    public class UsersPhoto
+    {
+        public UsersPhoto(string? photo)
+        {
+            this.photo = photo;
+        }
+        public string? photo { get; set; }
+    }
+
     public class Courses
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string qualification { get; set; }
         public string major { get; set; }
         public string description { get; set; }
     }
@@ -110,19 +167,21 @@ namespace SelectCourseProgram
             }
         }
 
-        public static string FormatUserToJson(Users person)
+        public static string? FormatUserToJsonWithoutPhoto(Users person)
         {
             try
             {
-                return JsonSerializer.Serialize<Users>(person);
+                // 删去 person 中的 photo 属性
+                person.photo = null;
+                return JsonSerializer.Serialize(person);
             }
             catch (Exception)
             {
-                return "";
+                return null;
             }
         }
 
-        public static string FormatUserToJsonPartial(Users person)
+        public static string FormatUserToJsonPartial(UsersLoginInfo person)
         {
             try
             {
@@ -135,8 +194,41 @@ namespace SelectCourseProgram
             }
         }
 
-        public static string FormatJsonToToken(string jsonContent)
+        public static string FormatUserRegisterToJson(UsersRegisterInfo person)
         {
+            try
+            {
+                UsersRegisterInfo userRegisterInfo = new(person.username, person.password, person.schoolId);
+                return JsonSerializer.Serialize(userRegisterInfo);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public static string FormatUserForgetToJson(object forgetInfo)
+        {
+            try
+            {
+                return JsonSerializer.Serialize(forgetInfo);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+
+
+
+        public static string? FormatJsonToToken(string jsonContent)
+        {
+            // 先判断是不是Json
+            if (!jsonContent.StartsWith("{") || !jsonContent.EndsWith("}"))
+            {
+                return null;
+            }
             using var doc = JsonDocument.Parse(jsonContent);
             var root = doc.RootElement;
 
@@ -145,16 +237,15 @@ namespace SelectCourseProgram
                 var accessToken = accessTokenElement.GetString()!;
                 return accessToken;
             }
-
-            throw new Exception("Access token not found in the JSON content.");
+            return null;
         }
 
         public static void ResetCurrentData()
         {
             Program.CurrentUser = new Users();
+            Program.Token = null;
             Program.AvailableCoursesList = [];
             Program.SelectedCoursesList = [];
-            Program.Token = "";
             Program.WillExit = false;
             Program.IsSignedIn = false;
         }

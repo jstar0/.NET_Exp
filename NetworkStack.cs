@@ -6,13 +6,12 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using SelectCourseProgram;
 
-namespace SelectCourseProgram
+namespace StudentInformationEntrySystem
 {
     internal abstract class NetworkStack
     {
-        public static async Task<NetworkResponse> GetAsync(string url, bool? useAuthBearer = true)
+        private static async Task<NetworkResponse> GetAsync(string url, bool? useAuthBearer = true)
         {
             using var client = new System.Net.Http.HttpClient();
             try
@@ -78,26 +77,47 @@ namespace SelectCourseProgram
             }
         }
 
-        public static async Task<NetworkResponse> Login()
+        public static async Task<string> Login(string username, string password)
         {
-            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserToJsonPartial(Program.CurrentUser);
+            var loginInfo = new UsersLoginInfo(username, password);
+            var jsonContent = DataInterface.FormatUserToJsonPartial(loginInfo);
+            Program.CurrentPostReq.JsonContent = jsonContent;
             var response = await PostAsync(Program.BaseUrl + "/auth/login", Program.CurrentPostReq, false);
             if (IsSuccessfulStatusCode((int)response.StatusCode))
             {
                 Program.Token = DataInterface.FormatJsonToToken(response.Content!);
+                Program.IsSignedIn = true;
+                return "OK";
             }
-            return response;
+
+            return "错误信息：" + (response.Content != null && response.Content.StartsWith("{")
+                ? JsonSerializer.Deserialize<JsonElement>(response.Content).GetProperty("message").GetString()
+                : response.Content);
         }
 
-        public static async Task<NetworkResponse> Register()
+        public static async Task<string> Register(string username, string password, string schoolId)
         {
-            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserToJson(Program.CurrentUser);
+            var registerInfo = new UsersRegisterInfo(username, password, schoolId);
+            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserRegisterToJson(registerInfo);
             var response = await PostAsync(Program.BaseUrl + "/auth/register", Program.CurrentPostReq, false);
             if (IsSuccessfulStatusCode((int)response.StatusCode))
             {
                 Program.Token = DataInterface.FormatJsonToToken(response.Content!);
             }
-            return response;
+            if (!IsSuccessfulStatusCode(response.StatusCode))
+            {
+                return "错误原因: " + JsonSerializer.Deserialize<JsonElement>(response.Content!).GetProperty("message").GetString();
+            }
+            Program.IsSignedIn = true;
+            return "OK";
+        }
+
+        public static async Task<string?> Forget(string schoolId)
+        {
+            var forgetInfo = new { schoolId };
+            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserForgetToJson(forgetInfo);
+            var response = await PostAsync(Program.BaseUrl + "/users/bySchoolId", Program.CurrentPostReq, false);
+            return response.Content;
         }
 
         public static async Task GetUserProfile()
@@ -111,105 +131,71 @@ namespace SelectCourseProgram
 
         public static async Task<bool> UpdateUserProfile()
         {
-            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserToJson(Program.CurrentUser);
+            Program.CurrentPostReq.JsonContent = DataInterface.FormatUserToJsonWithoutPhoto(Program.CurrentUser);
             var response = await PostAsync(Program.BaseUrl + "/users/profile", Program.CurrentPostReq);
             return IsSuccessfulStatusCode((int)response.StatusCode);
         }
 
-        public static async Task<bool> UpdateCourseSelection(List<int> selectedCourseList, List<int> deselectCourseList, bool? willEraseAll = false)
+        public static async Task<bool> UpdateUserPhoto(string compressedImgBase64)
         {
-            if (willEraseAll == true)
-            {
-                Program.CurrentPostReq.JsonContent = "{\"selectedCourses\": []}";
-            }
-            else
-            {
-                Program.IsSignedIn = false;
-                // 从 Program.CurrentUser.selectCourse 中 先移除 deselectCourseList 中的元素，再添加 selectedCourseList 中的元素（不重复）
-                Program.CurrentUser.selectedCourses = Program.CurrentUser.selectedCourses?.Except(deselectCourseList).Concat(selectedCourseList).Distinct().ToArray();
-                Program.CurrentPostReq.JsonContent = JsonSerializer.Serialize(new { Program.CurrentUser.selectedCourses });
-                Program.IsSignedIn = true;
-            }
-            var response = await PostAsync(Program.BaseUrl + "/courses/update", Program.CurrentPostReq);
+            var userPhoto = new { photo = compressedImgBase64 };
+            Program.CurrentPostReq.JsonContent = JsonSerializer.Serialize(userPhoto);
+
+            var response = await PostAsync(Program.BaseUrl + "/users/photo", Program.CurrentPostReq);
             return IsSuccessfulStatusCode((int)response.StatusCode);
         }
 
-        public static async Task GetAvailableCoursesInfo()
+        public static async Task<Image?> GetUserPhoto()
         {
-            var response = await GetAsync(Program.BaseUrl + "/courses/search/qamajor/" + Program.CurrentUser.qualification + "/" + Program.CurrentUser.major);
+            var response = await GetAsync(Program.BaseUrl + "/users/photo");
             if (IsSuccessfulStatusCode((int)response.StatusCode))
             {
-                Program.AvailableCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
-            }
-            var responseCommon = await GetAsync(Program.BaseUrl + "/courses/search/qamajor/" + Program.CurrentUser.qualification + "/common");
-            if (IsSuccessfulStatusCode((int)responseCommon.StatusCode))
-            {
-                Program.AvailableCoursesList = [.. Program.AvailableCoursesList, .. DataInterface.FormatJsonToCourseMany(responseCommon.Content!)];
-            }
-        }
-
-        public static async Task GetSelectedCoursesInfo()
-        {
-            var response = await GetAsync(Program.BaseUrl + "/courses/selected");
-            if (IsSuccessfulStatusCode((int)response.StatusCode))
-            {
-                Program.SelectedCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
-            }
-        }
-
-        public static async Task<Courses?> GetCourseInfoById(string courseId)
-        {
-            var response = await GetAsync(Program.BaseUrl + "/courses/search/courseId/" + courseId);
-            if (IsSuccessfulStatusCode((int)response.StatusCode))
-            {
-                return DataInterface.FormatJsonToCourse(response.Content!);
+                if (String.IsNullOrEmpty(response.Content))
+                {
+                    return null;
+                }
+                Program.CurrentUser.photo = response.Content;
+                byte[] imgBytes = Convert.FromBase64String(response.Content);
+                using var ms = new MemoryStream(imgBytes);
+                return Image.FromStream(ms);
             }
             return null;
         }
 
-        public static async Task GetAllCourseInfo()
+        public static async Task GetCoursesList(string major)
         {
-            var response = await GetAsync(Program.BaseUrl + "/courses/list");
-            if (IsSuccessfulStatusCode((int)response.StatusCode))
-            {
-                Program.AvailableCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
-            }
-        }
-
-        public static async Task GetCourseInfoByMajor(string major)
-        {
+            // 获取 AvailableCoursesList
             var response = await GetAsync(Program.BaseUrl + "/courses/search/major/" + major);
             if (IsSuccessfulStatusCode((int)response.StatusCode))
             {
-                Program.AvailableCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
+                var courseMajorList = DataInterface.FormatJsonToCourseMany(response.Content!);
+                // 从 courseList 提取 id 作为 key，然后将 Courses 对象作为 value
+                Program.AvailableCoursesList = courseMajorList.ToDictionary(course => course.id);
             }
-        }
-
-        public static async Task GetCourseInfoByQualification(string qualification)
-        {
-            var response = await GetAsync(Program.BaseUrl + "/courses/search/qualification/" + qualification);
-            if (IsSuccessfulStatusCode((int)response.StatusCode))
+            var responseCommon = await GetAsync(Program.BaseUrl + "/courses/search/major/common");
+            if (IsSuccessfulStatusCode((int)responseCommon.StatusCode))
             {
-                Program.AvailableCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
+                var courseCommonList = DataInterface.FormatJsonToCourseMany(response.Content!);
+                // 追加到 Program.CoursesList
+                foreach (var course in courseCommonList)
+                {
+                    Program.AvailableCoursesList.TryAdd(course.id, course);
+                }
             }
-        }
 
-        public static async Task GetCourseInfoByQualificationAndMajor(string qualification, string major)
-        {
-            var response = await GetAsync(Program.BaseUrl + "/courses/search/qamajor/" + qualification + "/" + major);
-            if (IsSuccessfulStatusCode((int)response.StatusCode))
+            // 获取 SelectedCoursesList
+            var responseSelected = await GetAsync(Program.BaseUrl + "/courses/selected");
+            if (IsSuccessfulStatusCode((int)responseSelected.StatusCode))
             {
-                Program.AvailableCoursesList = DataInterface.FormatJsonToCourseMany(response.Content!);
+                var courseSelectedList = DataInterface.FormatJsonToCourseMany(responseSelected.Content!);
+                Program.SelectedCoursesList = courseSelectedList.ToDictionary(course => course.id);
             }
-        }
 
-        public static async Task TimelyGetUserProfile()
-        {
-            while (Program.IsSignedIn)
-            {
-                await GetUserProfile();
-                await Task.Delay(60000);
-            }
+            // 取得 CanSelectCoursesList （AvailableCoursesList - SelectedCoursesList）
+            Program.CanSelectCoursesList = Program.AvailableCoursesList
+                .Where(course => !Program.SelectedCoursesList.ContainsKey(course.Key))
+                .ToDictionary(course => course.Key, course => course.Value);
+
         }
 
         public static bool IsSuccessfulStatusCode(int statusCode)
