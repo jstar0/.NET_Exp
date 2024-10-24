@@ -54,6 +54,7 @@ export class UsersService {
     user.basic = body.basic;
     user.family = body.family;
     user.selectedCourses = body.selectedCourses;
+    user.photo = user.photo;
     await user.save();
 
     return {
