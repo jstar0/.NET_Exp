@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Calculator.Views.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Calculator.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!--  定义一列和三行  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <!--  第一行，占2份  -->
+            <RowDefinition Height="1*" />
+            <!--  第二行，占1份  -->
+            <RowDefinition Height="3*" />
+            <!--  第三行，占3份  -->
+        </Grid.RowDefinitions>
+
+        <!--  第一行内容  -->
+        <Border Grid.Row="0" Background="LightBlue">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="第一行" />
+        </Border>
+
+        <!--  第二行内容  -->
+        <Border Grid.Row="1" Background="LightGreen">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="第二行" />
+        </Border>
+
+        <!--  第三行内容  -->
+        <Border Grid.Row="2" Background="LightCoral">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="第三行" />
+        </Border>
+    </Grid>
+</Page>

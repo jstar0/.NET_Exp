@@ -1,0 +1,312 @@
+﻿<Page
+    x:Class="Calculator.Views.CalculateStandardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Calculator.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Calculator.ViewModels"
+    xmlns:views="using:Calculator.Views"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <viewModels:CalculateStandardViewModel x:Key="ViewModel" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="ContentArea" ColumnSpacing="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+
+
+            <Grid
+                x:Name="LeftContent"
+                Grid.Column="0"
+                Margin="0,0,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="12*" />
+                </Grid.RowDefinitions>
+
+                <!--  第一行内容  -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock
+                        x:Uid="Calculator_Standard_Left_Title"
+                        Margin="0,0,0,10"
+                        Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <!--  Expressions  -->
+                    <TextBlock
+                        x:Name="ExpressionTextBlock"
+                        Margin="0,-2,0,-7"
+                        HorizontalAlignment="Right"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="Expressions Here" />
+                    <ScrollViewer
+                        x:Name="NormalOutPutContainer"
+                        Padding="0,0,0,0"
+                        AutomationProperties.AccessibilityView="Raw"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Disabled">
+                        <TextBlock
+                            x:Name="NormalOutput"
+                            Margin="0,0,0,5"
+                            HorizontalAlignment="Right"
+                            AutomationProperties.AccessibilityView="Raw"
+                            FontSize="38"
+                            FontWeight="Normal"
+                            Text="123122233322"
+                            TextAlignment="Right"
+                            TextWrapping="WrapWholeWords" />
+                        <ScrollViewer.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    Click="NormalOutPutContainerCopyText_Click"
+                                    Icon="Copy"
+                                    Text="复制" />
+                                <MenuFlyoutItem
+                                    Click="NormalOutPutContainerPasteText_Click"
+                                    Icon="Paste"
+                                    Text="粘贴" />
+                            </MenuFlyout>
+                        </ScrollViewer.ContextFlyout>
+                    </ScrollViewer>
+
+                </StackPanel>
+
+                <!--  第二行内容  -->
+                <Grid
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button
+                        x:Name="ButtonMc"
+                        Grid.Column="0"
+                        Margin="5,0,5,2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0.5"
+                        FontSize="10">
+                        MC
+                    </Button>
+                    <Button
+                        x:Name="ButtonMr"
+                        Grid.Column="1"
+                        Margin="5,0,5,2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0.5"
+                        FontSize="10">
+                        MR
+                    </Button>
+                    <Button
+                        x:Name="ButtonMp"
+                        Grid.Column="2"
+                        Margin="5,0,5,2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0.5"
+                        FontSize="10">
+                        M+
+                    </Button>
+                    <Button
+                        x:Name="ButtonMm"
+                        Grid.Column="3"
+                        Margin="5,0,5,2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0.5"
+                        FontSize="10">
+                        M-
+                    </Button>
+                    <Button
+                        x:Name="ButtonMs"
+                        Grid.Column="4"
+                        Margin="5,0,5,2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0.5"
+                        FontSize="10">
+                        MS
+                    </Button>
+                </Grid>
+
+
+                <!--  第三行内容  -->
+                <Border Grid.Row="2" Background="LightCoral">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="第三行" />
+                </Border>
+            </Grid>
+
+            <Grid x:Name="RightContent" Grid.Column="1">
+                <SelectorBar x:Name="SelectorBar" SelectionChanged="SelectorBar_SelectionChanged">
+                    <SelectorBarItem
+                        x:Name="SelectorBarHistory"
+                        IsSelected="True"
+                        Text="历史记录" />
+                    <SelectorBarItem x:Name="SelectorBarMemory" Text="存储" />
+                </SelectorBar>
+                <Frame
+                    x:Name="HistoryMemoryFrame"
+                    Margin="0,50,5,0"
+                    Background="Transparent"
+                    IsNavigationStackEnabled="False" />
+            </Grid>
+
+            <Button
+                x:Name="ToggleRightContentButton"
+                Grid.Column="0"
+                Margin="0,-5,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Click="ToggleRightContentButton_Click"
+                Visibility="Collapsed">
+                <FontIcon Glyph="&#xE81C;" />
+            </Button>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Minimal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentArea.Margin" Value="0,48,0,0" />
+                        <Setter Target="ToggleRightContentButton.Visibility" Value="Visible" />
+                        <Setter Target="RightContent.Visibility" Value="Collapsed" />
+                        <Setter Target="LeftContent.Margin" Value="0 0 0 0" />
+                        <Setter Target="ContentArea.ColumnDefinitions[1].Width" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="642" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentArea.Margin" Value="0,0,0,0" />
+                        <Setter Target="ToggleRightContentButton.Visibility" Value="Visible" />
+                        <Setter Target="RightContent.Visibility" Value="Collapsed" />
+                        <Setter Target="LeftContent.Margin" Value="0 0 0 0" />
+                        <Setter Target="ContentArea.ColumnDefinitions[1].Width" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentArea.Margin" Value="0,0,0,0" />
+                        <Setter Target="ToggleRightContentButton.Visibility" Value="Collapsed" />
+                        <Setter Target="RightContent.Visibility" Value="Visible" />
+                        <Setter Target="LeftContent.Margin" Value="0 0 0 0" />
+                        <Setter Target="ContentArea.ColumnDefinitions[1].Width" Value="200" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <!--  调整 NormalOutput FontSize  -->
+            <VisualStateGroup>
+                <VisualState x:Name="FontResize0">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="38" />
+                        <Setter Target="ButtonMc.FontSize" Value="10" />
+                        <Setter Target="ButtonMr.FontSize" Value="10" />
+                        <Setter Target="ButtonMp.FontSize" Value="10" />
+                        <Setter Target="ButtonMm.FontSize" Value="10" />
+                        <Setter Target="ButtonMs.FontSize" Value="10" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FontResize1">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="540" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="42" />
+                        <Setter Target="ButtonMc.FontSize" Value="11" />
+                        <Setter Target="ButtonMr.FontSize" Value="11" />
+                        <Setter Target="ButtonMp.FontSize" Value="11" />
+                        <Setter Target="ButtonMm.FontSize" Value="11" />
+                        <Setter Target="ButtonMs.FontSize" Value="11" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FontResize2">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="48" />
+                        <Setter Target="ButtonMc.FontSize" Value="12" />
+                        <Setter Target="ButtonMr.FontSize" Value="12" />
+                        <Setter Target="ButtonMp.FontSize" Value="12" />
+                        <Setter Target="ButtonMm.FontSize" Value="12" />
+                        <Setter Target="ButtonMs.FontSize" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FontResize3">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="700" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="54" />
+                        <Setter Target="ButtonMc.FontSize" Value="14" />
+                        <Setter Target="ButtonMr.FontSize" Value="14" />
+                        <Setter Target="ButtonMp.FontSize" Value="14" />
+                        <Setter Target="ButtonMm.FontSize" Value="14" />
+                        <Setter Target="ButtonMs.FontSize" Value="14" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FontResize4">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="58" />
+                        <Setter Target="ButtonMc.FontSize" Value="16" />
+                        <Setter Target="ButtonMr.FontSize" Value="16" />
+                        <Setter Target="ButtonMp.FontSize" Value="16" />
+                        <Setter Target="ButtonMm.FontSize" Value="16" />
+                        <Setter Target="ButtonMs.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FontResize5">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="900" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NormalOutput.FontSize" Value="62" />
+                        <Setter Target="ButtonMc.FontSize" Value="17" />
+                        <Setter Target="ButtonMr.FontSize" Value="17" />
+                        <Setter Target="ButtonMp.FontSize" Value="17" />
+                        <Setter Target="ButtonMm.FontSize" Value="17" />
+                        <Setter Target="ButtonMs.FontSize" Value="17" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>
