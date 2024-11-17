@@ -191,4 +191,13 @@
   <data name="Calculator_Standard_Left_Title.Text" xml:space="preserve">
     <value>Standard Calculator</value>
   </data>
+  <data name="MainPage_WebView_Error_Title" xml:space="preserve">
+    <value>Network Error</value>
+  </data>
+  <data name="MainPage_WebView_Error_Message" xml:space="preserve">
+    <value>Unable to connect GitHub, thus README of this project cannot be shown. Check your network connection.</value>
+  </data>
+  <data name="MainPage_WebView_Error_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

@@ -17,6 +17,32 @@ namespace Calculator.Views;
 
 public sealed partial class CalculateStandardPage : Page
 {
+    public double NumpadButtonFontSize
+    {
+        get => (double)GetValue(NumpadButtonFontSizeProperty);
+        set => SetValue(NumpadButtonFontSizeProperty, value);
+    }
+
+    public static readonly DependencyProperty NumpadButtonFontSizeProperty =
+        DependencyProperty.Register(
+            nameof(NumpadButtonFontSize),
+            typeof(double),
+            typeof(CalculateStandardPage),
+            new PropertyMetadata(16.0));
+
+    public double MemoryButtonFontSize
+    {
+        get => (double)GetValue(MemoryButtonFontSizeProperty);
+        set => SetValue(MemoryButtonFontSizeProperty, value);
+    }
+
+    public static readonly DependencyProperty MemoryButtonFontSizeProperty =
+        DependencyProperty.Register(
+            nameof(MemoryButtonFontSize),
+            typeof(double),
+            typeof(CalculateStandardPage),
+            new PropertyMetadata(10.0));
+
     public CalculateStandardViewModel ViewModel
     {
         get;

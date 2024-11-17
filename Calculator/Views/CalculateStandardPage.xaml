@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Calculator.ViewModels"
     xmlns:views="using:Calculator.Views"
+    x:Name="Root"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -22,7 +23,7 @@
         <Grid x:Name="ContentArea" ColumnSpacing="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
 
 
@@ -39,10 +40,10 @@
                     <RowDefinition Height="12*" />
                 </Grid.RowDefinitions>
 
-                <!--  第一行内容  -->
+                <!--  Grid Spilt 1 - TextBlock of Output & Expression  -->
                 <StackPanel Grid.Row="0">
                     <TextBlock
-                        x:Uid="Calculator_Standard_Left_Title"
+                        x:Uid="CalculatorStandardLeftTitle"
                         Margin="0,0,0,10"
                         Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <!--  Expressions  -->
@@ -50,6 +51,7 @@
                         x:Name="ExpressionTextBlock"
                         Margin="0,-2,0,-7"
                         HorizontalAlignment="Right"
+                        FontSize="12"
                         Style="{ThemeResource CaptionTextBlockStyle}"
                         Text="Expressions Here" />
                     <ScrollViewer
@@ -65,7 +67,7 @@
                             AutomationProperties.AccessibilityView="Raw"
                             FontSize="38"
                             FontWeight="Normal"
-                            Text="123122233322"
+                            Text="123122232223322"
                             TextAlignment="Right"
                             TextWrapping="WrapWholeWords" />
                         <ScrollViewer.ContextFlyout>
@@ -84,7 +86,7 @@
 
                 </StackPanel>
 
-                <!--  第二行内容  -->
+                <!--  Grid Spilt 2 - Memory Buttons  -->
                 <Grid
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
@@ -103,8 +105,9 @@
                         Margin="5,0,5,2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="Transparent"
                         BorderThickness="0.5"
-                        FontSize="10">
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
                         MC
                     </Button>
                     <Button
@@ -113,8 +116,9 @@
                         Margin="5,0,5,2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="Transparent"
                         BorderThickness="0.5"
-                        FontSize="10">
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
                         MR
                     </Button>
                     <Button
@@ -123,8 +127,9 @@
                         Margin="5,0,5,2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="Transparent"
                         BorderThickness="0.5"
-                        FontSize="10">
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
                         M+
                     </Button>
                     <Button
@@ -133,8 +138,9 @@
                         Margin="5,0,5,2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="Transparent"
                         BorderThickness="0.5"
-                        FontSize="10">
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
                         M-
                     </Button>
                     <Button
@@ -143,20 +149,203 @@
                         Margin="5,0,5,2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="Transparent"
                         BorderThickness="0.5"
-                        FontSize="10">
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
                         MS
                     </Button>
                 </Grid>
 
 
-                <!--  第三行内容  -->
-                <Border Grid.Row="2" Background="LightCoral">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="第三行" />
-                </Border>
+                <!--  Grid Spilt 3 - Numpad Buttons  -->
+                <Grid
+                    Grid.Row="2"
+                    Margin="0,0,0,2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  第一行  -->
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Content="&#xE94C;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Content="CE"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Content="C"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Content="&#xE94F;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+
+                    <!--  第二行  -->
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="&#xf7c9;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="&#xf7c8;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="&#xF899;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Content="&#xE94A;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+
+                    <!--  第三行  -->
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Content="7"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Content="8"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="9"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Content="&#xE947;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+
+                    <!--  第四行  -->
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Content="4"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Content="5"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Content="6"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Content="&#xE949;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+
+                    <!--  第五行  -->
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Content="1"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Content="2"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Content="3"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Content="&#xE948;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+
+                    <!--  第六行  -->
+                    <Button
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Content="&#xF898;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Content="0"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        Content="."
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                    <Button
+                        Grid.Row="5"
+                        Grid.Column="3"
+                        Content="&#xE94E;"
+                        FontFamily="{StaticResource CalculatorIconsFont}"
+                        FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource AccentCalculatorStandardButtonStyle}" />
+
+                </Grid>
             </Grid>
 
             <Grid x:Name="RightContent" Grid.Column="1">
@@ -221,12 +410,12 @@
                         <Setter Target="ToggleRightContentButton.Visibility" Value="Collapsed" />
                         <Setter Target="RightContent.Visibility" Value="Visible" />
                         <Setter Target="LeftContent.Margin" Value="0 0 0 0" />
-                        <Setter Target="ContentArea.ColumnDefinitions[1].Width" Value="200" />
+                        <Setter Target="ContentArea.ColumnDefinitions[1].Width" Value="300" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
 
-            <!--  调整 NormalOutput FontSize  -->
+            <!--  调整 FontSize  -->
             <VisualStateGroup>
                 <VisualState x:Name="FontResize0">
                     <VisualState.StateTriggers>
@@ -234,11 +423,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="38" />
-                        <Setter Target="ButtonMc.FontSize" Value="10" />
-                        <Setter Target="ButtonMr.FontSize" Value="10" />
-                        <Setter Target="ButtonMp.FontSize" Value="10" />
-                        <Setter Target="ButtonMm.FontSize" Value="10" />
-                        <Setter Target="ButtonMs.FontSize" Value="10" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="12" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="10" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="16" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="FontResize1">
@@ -247,11 +435,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="42" />
-                        <Setter Target="ButtonMc.FontSize" Value="11" />
-                        <Setter Target="ButtonMr.FontSize" Value="11" />
-                        <Setter Target="ButtonMp.FontSize" Value="11" />
-                        <Setter Target="ButtonMm.FontSize" Value="11" />
-                        <Setter Target="ButtonMs.FontSize" Value="11" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="14" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="11" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="18" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="FontResize2">
@@ -260,11 +447,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="48" />
-                        <Setter Target="ButtonMc.FontSize" Value="12" />
-                        <Setter Target="ButtonMr.FontSize" Value="12" />
-                        <Setter Target="ButtonMp.FontSize" Value="12" />
-                        <Setter Target="ButtonMm.FontSize" Value="12" />
-                        <Setter Target="ButtonMs.FontSize" Value="12" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="16" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="12" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="20" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="FontResize3">
@@ -273,11 +459,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="54" />
-                        <Setter Target="ButtonMc.FontSize" Value="14" />
-                        <Setter Target="ButtonMr.FontSize" Value="14" />
-                        <Setter Target="ButtonMp.FontSize" Value="14" />
-                        <Setter Target="ButtonMm.FontSize" Value="14" />
-                        <Setter Target="ButtonMs.FontSize" Value="14" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="18" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="14" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="22" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="FontResize4">
@@ -286,11 +471,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="58" />
-                        <Setter Target="ButtonMc.FontSize" Value="16" />
-                        <Setter Target="ButtonMr.FontSize" Value="16" />
-                        <Setter Target="ButtonMp.FontSize" Value="16" />
-                        <Setter Target="ButtonMm.FontSize" Value="16" />
-                        <Setter Target="ButtonMs.FontSize" Value="16" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="20" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="16" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="24" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="FontResize5">
@@ -299,11 +483,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="NormalOutput.FontSize" Value="62" />
-                        <Setter Target="ButtonMc.FontSize" Value="17" />
-                        <Setter Target="ButtonMr.FontSize" Value="17" />
-                        <Setter Target="ButtonMp.FontSize" Value="17" />
-                        <Setter Target="ButtonMm.FontSize" Value="17" />
-                        <Setter Target="ButtonMs.FontSize" Value="17" />
+                        <Setter Target="ExpressionTextBlock.FontSize" Value="22" />
+
+                        <Setter Target="Root.MemoryButtonFontSize" Value="17" />
+                        <Setter Target="Root.NumpadButtonFontSize" Value="26" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -27,5 +27,60 @@ Calculator.Core 项目是一个独立的核心库，它应该包含与应用程�
 
 ## View 定义 UI 界面
 
+### 拉伸 Grid
+
 - 将 Grid 作为页面的根元素：确保 Grid 不是嵌套在 StackPanel 等控件中，否则会影响其拉伸行为。
 - 移除不必要的 HorizontalAlignment 和 VerticalAlignment：Grid 作为根元素时，会默认填充整个页面，子元素也会根据 Grid 行的定义自动拉伸，因此可以省略一些对齐属性。
+
+### 批量更改 Button 的 FontSize
+
+使用共享的 FontSize 属性绑定。
+
+1. 在 CalculatorStandardPage.xaml.cs 中 添加一个 NumpadButtonFontSize 属性
+
+```csharp
+public sealed partial class CalculateStandardPage : Page
+{
+    public double ButtonFontSize
+    {
+        get => (double)GetValue(ButtonFontSizeProperty);
+        set => SetValue(ButtonFontSizeProperty, value);
+    }
+
+    public static readonly DependencyProperty ButtonFontSizeProperty =
+        DependencyProperty.Register(
+            nameof(ButtonFontSize),
+            typeof(double),
+            typeof(CalculateStandardPage),
+            new PropertyMetadata(18.0));
+    // ...
+}
+```
+
+2. 在 CalculatorStandardPage.xaml 中 设定 x:Name="Root"
+
+```xml
+<Page
+    ...
+    x:Name="Root">
+```
+
+3. 绑定 NumpadButtonFontSize 到 Button 的 FontSize
+
+```xml
+<Button
+    FontSize="{Binding NumpadButtonFontSize, ElementName=Root}" />
+```
+
+4. 在 VisualStateManager 中更改 NumpadButtonFontSize
+
+```xml
+<VisualState x:Name="FontResize0">
+    <VisualState.StateTriggers>
+        <AdaptiveTrigger MinWindowHeight="0" />
+    </VisualState.StateTriggers>
+    <VisualState.Setters>
+        <Setter Target="Root.NumpadButtonFontSize" Value="14" />
+    </VisualState.Setters>
+</VisualState>
+```

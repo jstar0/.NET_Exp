@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="/Styles/Thickness.xaml" />
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!--  加载特殊字体  -->
+            <FontFamily x:Key="CalculatorIconsFont">/Assets/CalculatorIcons.ttf#Calculator Fluent Icons</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

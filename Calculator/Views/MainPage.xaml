@@ -16,18 +16,50 @@
                 FontSize="100"
                 Text="&#xE8EF;" />
             <TextBlock
+                Margin="0,0,0,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                FontSize="20"
+                FontSize="16"
                 Text="欢迎使用计算器" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="于景一 | 23090032047" />
         </StackPanel>
-        <WebView2
-            x:Name="MainPageWebView"
-            MinWidth="200"
-            MinHeight="300"
+        <Border
+            x:Name="MainPageWebViewBorder"
             Margin="0,200,0,20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Source="https://github.com/jstar0/.NET_Exp/blob/Calculator/README.md" />
+            BorderBrush="DarkGray"
+            BorderThickness="1"
+            CornerRadius="10">
+            <WebView2
+                x:Name="MainPageWebView"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                NavigationCompleted="MainPageWebView_NavigationCompleted"
+                Source="https://github.com/jstar0/.NET_Exp/blob/Calculator/README.md#calculator"
+                Visibility="Collapsed" />
+        </Border>
+        <TextBlock
+            x:Name="MainPageLoadingFailed"
+            Margin="0,200,0,20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontFamily="Segoe Fluent Icons"
+            FontSize="70"
+            Text="&#xF384;"
+            Visibility="Collapsed" />
+        <ProgressRing
+            x:Name="MainPageLoadingRing"
+            MinWidth="50"
+            MinHeight="50"
+            Margin="0,200,0,20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="LightGray"
+            IsActive="True" />
     </Grid>
 </Page>

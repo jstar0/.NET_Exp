@@ -1,5 +1,7 @@
-﻿using Calculator.Contracts.Services;
+﻿using System.ComponentModel;
+using Calculator.Contracts.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace Calculator.ViewModels;
 
