@@ -14,5 +14,7 @@ public interface IHistoryService
         get;
     }
 
-    public void AddHistory(string expression, string result);
+    void AddHistory(string expression, string result);
+
+    void RemoveHistory(HistoryModel historyModel);
 }

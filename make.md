@@ -161,6 +161,19 @@ namespace Calculator.Core.Services
    }
 ```
 
+### 统一激活服务
+
+在 Calculator/Services/ActivationService.cs 中
+
+```csharp
+private readonly IHistoryService _historyService;
+
+public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService, IHistoryService historyService)
+{
+    _historyService = historyService;
+}
+```
+
 
 ### Inject HistoryService into your ViewModel.
 
@@ -174,13 +187,13 @@ namespace Calculator.Core.Services
 
    public partial class CalculateStandardViewModel : ObservableRecipient
    {
-       private readonly HistoryService _historyService;
+       private readonly IHistoryService _historyService;
 
        public ObservableCollection<HistoryModel> History => _historyService.History; // History Should Be a Property, Not a Field
 
-       public CalculateStandardViewModel()
+       public CalculateStandardViewModel(IHistoryService historyService) // constructor with dependency injection
        {
-           _historyService = App.GetService<HistoryService>();
+           _historyService = historyService;
        }
 
        // Method to perform calculation and add to history
@@ -278,4 +291,9 @@ namespace Calculator.Core.Services
 
 
 ```
-    
+
+### 修复 CalculatorStandardViewModel 未正确初始化使 XAML 加载崩溃的问题
+
+问题的修复在于 HistoryService 在 ViewModel 未正确初始化。
+
+应该修改 CalculatorStandardViewModel 的 constructor，不使用 GetService 而是使用依赖注入。

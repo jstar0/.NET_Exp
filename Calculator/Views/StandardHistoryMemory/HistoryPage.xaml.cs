@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Calculator.Core.Models;
 using Calculator.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -40,6 +41,7 @@ namespace Calculator.Views
 
             ViewModel.History.CollectionChanged += HistoryItems_CollectionChanged;
             UpdateHistoryEmptyVisibility();
+            ViewModel.PerformCalculation("abc+66");
         }
 
         private void HistoryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -56,6 +58,26 @@ namespace Calculator.Views
         private void ClearHistory_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.History.Clear();
+        }
+
+        private void HistoryCopy_Click(object sender, RoutedEventArgs e)
+        {
+            // Copy HistoryModel.Result into clipboard
+            if (sender is FrameworkElement { DataContext: HistoryModel historyModel })
+            {
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(historyModel.Result);
+                Clipboard.SetContent(dataPackage);
+            }
+        }
+
+        private void HistoryDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Delete selected HistoryModel
+            if (sender is FrameworkElement { DataContext: HistoryModel historyModel })
+            {
+                ViewModel.RemoveHistory(historyModel);
+            }
         }
     }
 }

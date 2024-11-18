@@ -15,4 +15,9 @@ public class HistoryService : IHistoryService
     {
         _history.Add(new HistoryModel { Expression = expression, Result = result });
     }
+
+    public void RemoveHistory(HistoryModel historyModel)
+    {
+        _history.Remove(historyModel);
+    }
 }
