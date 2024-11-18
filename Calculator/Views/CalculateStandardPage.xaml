@@ -8,6 +8,7 @@
     xmlns:viewModels="using:Calculator.ViewModels"
     xmlns:views="using:Calculator.Views"
     x:Name="Root"
+    DataContext="{x:Bind ViewModel, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -67,6 +68,7 @@
                             AutomationProperties.AccessibilityView="Raw"
                             FontSize="38"
                             FontWeight="Normal"
+                            IsTextSelectionEnabled="True"
                             Text="123122232223322"
                             TextAlignment="Right"
                             TextWrapping="WrapWholeWords" />

@@ -1,46 +1,134 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Calculator.Views.HistoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Calculator.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Calculator.Core.Models"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <!--  定义一列和三行  -->
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="LayoutGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <!--  第一行，占2份  -->
-            <RowDefinition Height="1*" />
-            <!--  第二行，占1份  -->
-            <RowDefinition Height="3*" />
-            <!--  第三行，占3份  -->
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  第一行内容  -->
-        <Border Grid.Row="0" Background="LightBlue">
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="第一行" />
-        </Border>
+        <Border
+            x:Name="BackgroundShade"
+            Grid.Row="1"
+            Margin="0,-1,0,0"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource SolidBackgroundFillColorBase}"
+            BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+            BorderThickness="1"
+            CornerRadius="0.2" />
 
-        <!--  第二行内容  -->
-        <Border Grid.Row="1" Background="LightGreen">
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="第二行" />
-        </Border>
+        <Grid x:Name="HistoryListRootGrid" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <!--  第三行内容  -->
-        <Border Grid.Row="2" Background="LightCoral">
             <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="第三行" />
-        </Border>
+                x:Name="HistoryEmptyNotice"
+                Margin="12,8,24,0"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="No history available"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
+
+            <ListView
+                x:Name="HistoryListView"
+                Grid.Row="0"
+                MinHeight="60"
+                Margin="4,0"
+                Padding="0,24,0,0"
+                HorizontalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemsSource="{x:Bind ViewModel.History, Mode=OneWay}"
+                SelectionMode="None"
+                TabIndex="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:HistoryModel">
+                        <StackPanel Margin="0,6,16,6" Background="Transparent">
+                            <TextBlock
+                                x:Name="ExprTextBlock"
+                                Margin="0,0,0,4"
+                                HorizontalAlignment="Right"
+                                AutomationProperties.AccessibilityView="Raw"
+                                AutomationProperties.AutomationId="HistoryItemExpression"
+                                IsTextSelectionEnabled="True"
+                                Style="{StaticResource BodyTextBlockMediumStyle}"
+                                Text="{x:Bind Expression}"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                x:Name="ResultTextBlock"
+                                HorizontalAlignment="Right"
+                                AutomationProperties.AccessibilityView="Raw"
+                                AutomationProperties.AutomationId="HistoryItemValue"
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind Result}"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button
+                x:Name="ClearHistoryButton"
+                Grid.Row="1"
+                Margin="3,0,3,10"
+                HorizontalAlignment="Right"
+                Click="ClearHistory_Click"
+                Content="Clear History"
+                Visibility="Visible" />
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="DockedLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="560" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HistoryListRootGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="HistoryListRootGrid.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="HistoryListView.Padding" Value="0" />
+                        <Setter Target="BackgroundShade.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DefaultLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

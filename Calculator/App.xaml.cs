@@ -66,6 +66,8 @@ public partial class App : Application
             services.AddTransient<INavigationViewService, NavigationViewService>();
             // 注册语言服务
             services.AddSingleton<ILanguageService, LanguageService>();
+            // 注册计算器历史记录服务
+            services.AddSingleton<IHistoryService, HistoryService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();

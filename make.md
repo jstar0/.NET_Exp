@@ -32,7 +32,12 @@ Calculator.Core 项目是一个独立的核心库，它应该包含与应用程�
 - 将 Grid 作为页面的根元素：确保 Grid 不是嵌套在 StackPanel 等控件中，否则会影响其拉伸行为。
 - 移除不必要的 HorizontalAlignment 和 VerticalAlignment：Grid 作为根元素时，会默认填充整个页面，子元素也会根据 Grid 行的定义自动拉伸，因此可以省略一些对齐属性。
 
-### 批量更改 Button 的 FontSize
+
+
+
+# 具体操作
+
+## 批量更改 Button 的 FontSize
 
 使用共享的 FontSize 属性绑定。
 
@@ -84,3 +89,193 @@ public sealed partial class CalculateStandardPage : Page
     </VisualState.Setters>
 </VisualState>
 ```
+
+## 历史记录服务和模型
+
+### 创建 HistoryModel 在 Calculator.Core/Models 中
+
+HistoryModel.cs
+
+```csharp
+public class HistoryModel
+{
+    public string Expression { get; set; }
+    public string Result { get; set; }
+}
+```
+
+### IHistoryService 接口
+
+```csharp
+// File: Calculator.Core/Services/IHistoryService.cs
+using System.Collections.ObjectModel;
+using Calculator.Core.Models;
+
+namespace Calculator.Core.Services
+{
+    public interface IHistoryService
+    {
+        ObservableCollection<HistoryModel> History { get; }
+
+        void AddHistory(string expression, string result);
+    }
+}
+```
+
+### Create a HistoryService to manage history data.
+
+```csharp
+   // File: Calculator.Core/Services/HistoryService.cs
+   using System.Collections.ObjectModel;
+   using Calculator.Core.Models;
+
+   namespace Calculator.Core.Services;
+
+   public class HistoryService
+   {
+       private readonly ObservableCollection<HistoryModel> _history = new();
+
+       public ObservableCollection<HistoryModel> History => _history;
+
+       public void AddHistory(string expression, string result)
+       {
+           _history.Add(new HistoryModel { Expression = expression, Result = result });
+       }
+
+       // Methods for loading and saving history can be added here for persistence
+   }
+```
+
+### Register the HistoryService in the App.xaml.cs
+
+```csharp
+   // File: Calculator/App.xaml.cs
+   using Calculator.Core.Services;
+
+   public App()
+   {
+       // Register the HistoryService as a singleton
+        services.AddSingleton<IHistoryService, HistoryService>();
+
+       // Other initialization code
+   }
+```
+
+
+### Inject HistoryService into your ViewModel.
+
+```csharp
+   // File: Calculator/ViewModels/CalculateStandardViewModel.cs
+   using Calculator.Core.Services;
+   using Calculator.Core.Models;
+   using System.Collections.ObjectModel;
+
+   namespace Calculator.ViewModels;
+
+   public partial class CalculateStandardViewModel : ObservableRecipient
+   {
+       private readonly HistoryService _historyService;
+
+       public ObservableCollection<HistoryModel> History => _historyService.History; // History Should Be a Property, Not a Field
+
+       public CalculateStandardViewModel()
+       {
+           _historyService = App.GetService<HistoryService>();
+       }
+
+       // Method to perform calculation and add to history
+       public void PerformCalculation(string expression)
+       {
+           // Perform calculation logic...
+           string result = /* calculation result */;
+
+           // Add to history
+           _historyService.AddHistory(expression, result);
+       }
+   }
+```
+
+### HistoryPage.xaml.cs 中绑定使用上面这个 ViewModel
+
+上面这个ViewModel是在CalculatorStandardPage.xaml.cs中创建的，所以需要在HistoryPage.xaml.cs中绑定这个ViewModel。
+
+```csharp
+   // File: Calculator/Views/HistoryPage.xaml.cs
+    public sealed partial class HistoryPage : Page
+    {
+        public CalculateStandardViewModel ViewModel
+        {
+            get;
+        }
+
+        public HistoryPage()
+        {
+            ViewModel = App.GetService<CalculateStandardViewModel>();
+
+            this.InitializeComponent();
+
+            DataContext = ViewModel;
+        }
+    }
+    // ...
+```
+
+###	Bind the history data to your UI.
+
+```xml
+   <!-- File: Calculator/Views/CalculateStandardPage.xaml -->
+   <Page
+        >
+
+       <Grid>
+           <!-- Other UI elements -->
+
+           <ListView 
+                ItemsSource="{x:Bind ViewModel.History, Mode=OneWay}" >
+               <ListView.ItemTemplate>
+                   <DataTemplate x:DataType="models:HistoryModel">
+                    <!-- ... -->
+                   </DataTemplate>
+               </ListView.ItemTemplate>
+           </ListView>
+       </Grid>
+   </Page>
+```
+
+### 事件处理
+
+如果历史记录为空就显示 No history available，隐藏 Clear Button
+
+同时设置清除事件
+
+```csharp
+    // File: Calculator/ViewModels/CalculateStandardViewModel.cs
+    public sealed partial class HistoryPage : Page
+    {
+
+
+        public HistoryPage()
+        {
+            ViewModel.History.CollectionChanged += HistoryItems_CollectionChanged;
+        }
+    }
+
+    private void HistoryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateHistoryEmptyVisibility();
+    }
+
+    private void UpdateHistoryEmptyVisibility()
+    {
+        HistoryEmptyNotice.Visibility = ViewModel.History.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        ClearHistoryButton.Visibility = ViewModel.History.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void ClearHistory_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.History.Clear();
+    }
+
+
+```
+    
