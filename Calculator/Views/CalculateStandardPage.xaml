@@ -13,7 +13,6 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <viewModels:CalculateStandardViewModel x:Key="ViewModel" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Styles/ButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>

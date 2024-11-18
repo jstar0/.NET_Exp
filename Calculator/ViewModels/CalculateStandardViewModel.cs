@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Calculator.Contracts.Services;
+using Calculator.Core.Contracts.Services;
 using Calculator.Core.Models;
 using Calculator.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,13 +11,13 @@ namespace Calculator.ViewModels;
 
 public partial class CalculateStandardViewModel : ObservableRecipient
 {
-    private readonly HistoryService _historyService;
+    private readonly IHistoryService _historyService;
 
     public ObservableCollection<HistoryModel> History => _historyService.History;
 
-    public CalculateStandardViewModel()
+    public CalculateStandardViewModel(IHistoryService historyService)
     {
-        _historyService = App.GetService<HistoryService>();
+        _historyService = historyService;
     }
 
     // Method to perform calculation and add to history

@@ -1,5 +1,6 @@
 ﻿using Calculator.Activation;
 using Calculator.Contracts.Services;
+using Calculator.Core.Contracts.Services;
 using Calculator.Views;
 
 using Microsoft.UI.Xaml;
@@ -13,14 +14,16 @@ public class ActivationService : IActivationService
     private readonly IEnumerable<IActivationHandler> _activationHandlers;
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILanguageService _languageService;
+    private readonly IHistoryService _historyService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService, IHistoryService historyService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
         _languageService = languageService;
+        _historyService = historyService;
     }
 
     public async Task ActivateAsync(object activationArgs)
