@@ -15,15 +15,17 @@ public class ActivationService : IActivationService
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly ILanguageService _languageService;
     private readonly IHistoryService _historyService;
+    private readonly ICalculateService _calculateService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService, IHistoryService historyService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService, IHistoryService historyService, ICalculateService calculateService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;
         _themeSelectorService = themeSelectorService;
         _languageService = languageService;
         _historyService = historyService;
+        _calculateService = calculateService;
     }
 
     public async Task ActivateAsync(object activationArgs)

@@ -200,4 +200,7 @@
   <data name="MainPage_WebView_Error_Button" xml:space="preserve">
     <value>了解</value>
   </data>
+  <data name="InvalidString" xml:space="preserve">
+    <value>结果出错</value>
+  </data>
 </root>

@@ -79,5 +79,10 @@ namespace Calculator.Views
                 ViewModel.RemoveHistory(historyModel);
             }
         }
+
+        private void HistoryListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }

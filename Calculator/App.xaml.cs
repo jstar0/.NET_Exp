@@ -68,6 +68,8 @@ public partial class App : Application
             services.AddSingleton<ILanguageService, LanguageService>();
             // 注册计算器历史记录服务
             services.AddSingleton<IHistoryService, HistoryService>();
+            // 注册计算器计算服务
+            services.AddSingleton<ICalculateService, CalculateService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
@@ -105,6 +107,8 @@ public partial class App : Application
         {
             App.GetService<IAppNotificationService>().Show(e.Exception.Message);
         }
+
+        e.Handled = true;
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)

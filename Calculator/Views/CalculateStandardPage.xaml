@@ -9,6 +9,7 @@
     xmlns:views="using:Calculator.Views"
     x:Name="Root"
     DataContext="{x:Bind ViewModel, Mode=OneWay}"
+    IsTabStop="True"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -16,6 +17,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Styles/ButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <helpers:NumberFormatterConverter x:Key="NumberStringFormatter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -68,17 +70,17 @@
                             FontSize="38"
                             FontWeight="Normal"
                             IsTextSelectionEnabled="True"
-                            Text="123122232223322"
+                            Text="{Binding CalculateItem.Result, Converter={StaticResource NumberStringFormatter}, Mode=OneWay}"
                             TextAlignment="Right"
                             TextWrapping="WrapWholeWords" />
                         <ScrollViewer.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
-                                    Click="NormalOutPutContainerCopyText_Click"
+                                    Command="{Binding TextBlockCopy}"
                                     Icon="Copy"
                                     Text="复制" />
                                 <MenuFlyoutItem
-                                    Click="NormalOutPutContainerPasteText_Click"
+                                    Command="{Binding TextBlockPaste}"
                                     Icon="Paste"
                                     Text="粘贴" />
                             </MenuFlyout>
@@ -103,56 +105,71 @@
                     <Button
                         x:Name="ButtonMc"
                         Grid.Column="0"
-                        Margin="5,0,5,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
+                        Command="{Binding ButtonMcCommand}"
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorMemoryButton}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="L"
+                                Invoked="OnButtonMemoryInvoked"
+                                Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
                         MC
                     </Button>
                     <Button
                         x:Name="ButtonMr"
                         Grid.Column="1"
-                        Margin="5,0,5,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
+                        Command="{Binding ButtonMrCommand}"
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorMemoryButton}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="R"
+                                Invoked="OnButtonMemoryInvoked"
+                                Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
                         MR
                     </Button>
                     <Button
                         x:Name="ButtonMp"
                         Grid.Column="2"
-                        Margin="5,0,5,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
+                        Command="{Binding ButtonMpCommand}"
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorMemoryButton}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="P"
+                                Invoked="OnButtonMemoryInvoked"
+                                Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
                         M+
                     </Button>
                     <Button
                         x:Name="ButtonMm"
                         Grid.Column="3"
-                        Margin="5,0,5,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
+                        Command="{Binding ButtonMmCommand}"
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorMemoryButton}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="Q"
+                                Invoked="OnButtonMemoryInvoked"
+                                Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
                         M-
                     </Button>
                     <Button
                         x:Name="ButtonMs"
                         Grid.Column="4"
-                        Margin="5,0,5,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}">
+                        Command="{Binding ButtonMsCommand}"
+                        FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+                        Style="{StaticResource CalculatorMemoryButton}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="M"
+                                Invoked="OnButtonMemoryInvoked"
+                                Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
                         MS
                     </Button>
                 </Grid>
@@ -202,6 +219,7 @@
                     <Button
                         Grid.Row="0"
                         Grid.Column="3"
+                        Command="{Binding BackspaceButtonCommand}"
                         Content="&#xE94F;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
@@ -239,24 +257,33 @@
 
                     <!--  第三行  -->
                     <Button
+                        x:Name="Numpad7Button"
                         Grid.Row="2"
                         Grid.Column="0"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="7"
                         Content="7"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
+                        x:Name="Numpad8Button"
                         Grid.Row="2"
                         Grid.Column="1"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="8"
                         Content="8"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
                         Grid.Row="2"
                         Grid.Column="2"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="9"
                         Content="9"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
+                        x:Name="Numpad9Button"
                         Grid.Row="2"
                         Grid.Column="3"
                         Content="&#xE947;"
@@ -266,20 +293,29 @@
 
                     <!--  第四行  -->
                     <Button
+                        x:Name="Numpad4Button"
                         Grid.Row="3"
                         Grid.Column="0"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="4"
                         Content="4"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
+                        x:Name="Numpad5Button"
                         Grid.Row="3"
                         Grid.Column="1"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="5"
                         Content="5"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
+                        x:Name="Numpad6Button"
                         Grid.Row="3"
                         Grid.Column="2"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="6"
                         Content="6"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
@@ -295,18 +331,24 @@
                     <Button
                         Grid.Row="4"
                         Grid.Column="0"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="1"
                         Content="1"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
                         Grid.Row="4"
                         Grid.Column="1"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="2"
                         Content="2"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
                         Grid.Row="4"
                         Grid.Column="2"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="3"
                         Content="3"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
@@ -329,12 +371,15 @@
                     <Button
                         Grid.Row="5"
                         Grid.Column="1"
+                        Command="{Binding NumpadButtonCommand}"
+                        CommandParameter="0"
                         Content="0"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />
                     <Button
                         Grid.Row="5"
                         Grid.Column="2"
+                        Command="{Binding DecimalPointButtonCommand}"
                         Content="."
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource CalculatorStandardButtonStyle}" />

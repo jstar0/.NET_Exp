@@ -297,3 +297,97 @@ public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHand
 问题的修复在于 HistoryService 在 ViewModel 未正确初始化。
 
 应该修改 CalculatorStandardViewModel 的 constructor，不使用 GetService 而是使用依赖注入。
+
+
+## 按键
+
+### 绑定键盘按键
+
+`IsTabStop="True"`
+
+https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/keyboard-events
+
+使用
+
+```xml
+<Button
+    x:Name="ButtonMc"
+    Grid.Column="0"
+    Command="{Binding ButtonMcCommand}"
+    FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
+    Style="{StaticResource CalculatorMemoryButton}">
+    <Button.KeyboardAccelerators>
+        <KeyboardAccelerator
+            Key="L"
+            Invoked="OnButtonMemoryInvoked"
+            Modifiers="Control" />
+    </Button.KeyboardAccelerators>
+    MC
+</Button>
+```
+绑定。此时
+```cs
+private void OnButtonMemoryInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+{
+    // Ensure the code runs on the UI thread
+    DispatcherQueue.TryEnqueue(async () =>
+    {
+        if (args.Element is Button button)
+        {
+            // Change the visual state to 'Pressed'
+            VisualStateManager.GoToState(button, "Pressed", true);
+
+            // Execute the command associated with the button
+            if (button.Command != null && button.Command.CanExecute(button.CommandParameter))
+            {
+                button.Command.Execute(button.CommandParameter);
+            }
+
+            // Wait briefly to display the 'Pressed' state
+            await Task.Delay(100);
+
+            // Change the visual state back to 'Normal'
+            VisualStateManager.GoToState(button, "Normal", true);
+        }
+    });
+    args.Handled = true;
+}
+```
+`args.Element` 就是 `Button`。
+
+### 触发
+
+使用 UI Automation 模拟按键被点击的效果是个好主意，但是无法使动画持久显现（如等待100ms）
+
+```cs
+// Get the automation peer for the button
+var peer = FrameworkElementAutomationPeer.FromElement(ButtonMc) ?? FrameworkElementAutomationPeer.CreatePeerForElement(ButtonMc);
+
+if (peer is ButtonAutomationPeer buttonPeer)
+{
+    // Invoke the button programmatically
+    buttonPeer.Invoke();
+}
+```
+
+因此改为使用 `VisualStateManager`
+
+```cs
+// Change the visual state to 'Pressed'
+VisualStateManager.GoToState(ButtonMc, "Pressed", true);
+
+// Wait briefly to display the 'Pressed' state
+await Task.Delay(100);
+
+// Execute the command associated with the button
+ViewModel.ButtonMcCommand.Execute(null);
+
+// Change the visual state back to 'Normal'
+VisualStateManager.GoToState(ButtonMc, "Normal", true);
+```
+
+由于 `Pressed` 等早已定义好，我们直接使用即可 =>
+
+默认的按钮样式在
+
+`%UserProfile%\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\lib\uap10.0\Microsoft.UI\Themes`

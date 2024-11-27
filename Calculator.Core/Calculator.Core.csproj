@@ -5,9 +5,11 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Platforms>x86;x64;arm64;AnyCPU</Platforms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3d191d97-99ba-44cd-96ae-2240599252e8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,9 @@ using Calculator.Behaviors;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Hosting;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Automation.Peers;
 
 namespace Calculator.Views;
 
@@ -55,6 +58,7 @@ public sealed partial class CalculateStandardPage : Page
         ViewModel = App.GetService<CalculateStandardViewModel>();
         InitializeComponent();
         DataContext = ViewModel;
+        //KeyboardShortcutMgr.Initialize(this);
 
         // 本页禁用标题
         NavigationViewHeaderBehavior.SetHeaderMode(this, NavigationViewHeaderMode.Never);
@@ -83,24 +87,29 @@ public sealed partial class CalculateStandardPage : Page
         _previousSelectedIndex = currentSelectedIndex;
     }
 
-    private void NormalOutPutContainerCopyText_Click(object sender, RoutedEventArgs e)
+    private void OnButtonMemoryInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        if (!double.TryParse(NormalOutput.Text, out var v))
+        // Ensure the code runs on the UI thread
+        DispatcherQueue.TryEnqueue(async () =>
         {
-            return;
-        }
+            if (args.Element is Button button)
+            {
+                // Change the visual state to 'Pressed'
+                VisualStateManager.GoToState(button, "Pressed", true);
 
-        var package = new DataPackage();
-        package.SetText(v.ToString(CultureInfo.InvariantCulture));
-        Clipboard.SetContent(package);
-    }
+                // Execute the command associated with the button
+                if (button.Command != null && button.Command.CanExecute(button.CommandParameter))
+                {
+                    button.Command.Execute(button.CommandParameter);
+                }
 
-    private async void NormalOutPutContainerPasteText_Click(object sender, RoutedEventArgs e)
-    {
-        var package = Clipboard.GetContent();
-        if (package.Contains(StandardDataFormats.Text) && double.TryParse(await package.GetTextAsync(), out var v))
-        {
-            NormalOutput.Text = v.ToString(CultureInfo.InvariantCulture);
-        }
+                // Wait briefly to display the 'Pressed' state
+                await Task.Delay(100);
+
+                // Change the visual state back to 'Normal'
+                VisualStateManager.GoToState(button, "Normal", true);
+            }
+        });
+        args.Handled = true;
     }
 }

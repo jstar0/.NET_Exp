@@ -200,4 +200,7 @@
   <data name="MainPage_WebView_Error_Button" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="InvalidString" xml:space="preserve">
+    <value>Result Invalid</value>
+  </data>
 </root>
