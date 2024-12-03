@@ -25,6 +25,13 @@ public partial class CalculateService : ObservableObject, ICalculateService
 
     public void NumpadPress(string number)
     {
+        if (Calculate.WillOverwriteInputs)
+        {
+            Calculate.Result = number;
+            Calculate.WillOverwriteInputs = false;
+            return;
+        }
+
         if (Calculate.Result == "0")
         {
             if (number != "0")
@@ -40,6 +47,12 @@ public partial class CalculateService : ObservableObject, ICalculateService
 
     public void BackspacePress()
     {
+        if (Calculate.WillOverwriteInputs)
+        {
+            // do nothing
+            return;
+        }
+
         if (Calculate.Result == "0" || string.IsNullOrEmpty(Calculate.Result))
         {
             return;
@@ -52,17 +65,19 @@ public partial class CalculateService : ObservableObject, ICalculateService
 
     public void DecimalPointPress()
     {
+        if (Calculate.WillOverwriteInputs)
+        {
+            Calculate.Result = "0.";
+            Calculate.WillOverwriteInputs = false;
+            return;
+        }
+
         // if . is in the result, return
         if (Calculate.Result.Contains('.'))
         {
             return;
         }
         Calculate.Result += ".";
-    }
-
-    public void Paste(string number)
-    {
-        Calculate.Result = number;
     }
 
     public void PerformCalculate(OperatorType operatorType)

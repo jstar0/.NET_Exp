@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="Calculator.Views.MemoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,9 +6,170 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Calculator.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Calculator.Core.Models"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock Text="Those are my memories" />
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <Style x:Key="BodyTextBlockMediumStyle" TargetType="TextBlock" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="LayoutGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border
+            x:Name="BackgroundShade"
+            Grid.Row="1"
+            Margin="0,-1,0,0"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource SolidBackgroundFillColorBase}"
+            BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+            BorderThickness="1"
+            CornerRadius="0.2" />
+
+        <Grid x:Name="MemoryListRootGrid" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                x:Name="MemoryEmptyNotice"
+                Margin="12,8,24,0"
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="No memory available"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
+
+            <ListView
+                x:Name="MemoryListView"
+                Grid.Row="0"
+                MinHeight="60"
+                Margin="4,0"
+                Padding="0,24,0,0"
+                HorizontalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemClick="MemoryListView_ItemClick"
+                ItemsSource="{x:Bind ViewModel.Memory, Mode=OneWay}"
+                SelectionMode="None"
+                TabIndex="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MemoryModel">
+                        <StackPanel
+                            x:Name="MemoryItemStackPanel"
+                            Margin="0,6,16,6"
+                            Background="Transparent"
+                            PointerEntered="MemoryItemStackPanel_OnPointerEntered"
+                            PointerExited="MemoryItemStackPanel_OnPointerExited">
+                            <TextBlock
+                                x:Name="ResultTextBlock"
+                                HorizontalAlignment="Right"
+                                AutomationProperties.AccessibilityView="Raw"
+                                AutomationProperties.AutomationId="MemoryItemValue"
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind Result}"
+                                TextAlignment="Right"
+                                TextWrapping="Wrap" />
+                            <Grid x:Name="MemoryItemButtons" HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    x:Name="MemoryItemMc"
+                                    Grid.Column="0"
+                                    Padding="8,5"
+                                    Click="MemoryItemMc_OnClick"
+                                    Content="MC"
+                                    FontSize="10"
+                                    Opacity="0" />
+                                <Button
+                                    x:Name="MemoryItemMp"
+                                    Grid.Column="1"
+                                    Padding="8,5"
+                                    Click="MemoryItemMp_OnClick"
+                                    Content="M+"
+                                    FontSize="10"
+                                    Opacity="0" />
+                                <Button
+                                    x:Name="MemoryItemMm"
+                                    Grid.Column="2"
+                                    Padding="8,5"
+                                    Click="MemoryItemMm_OnClick"
+                                    Content="M-"
+                                    FontSize="10"
+                                    Opacity="0" />
+                            </Grid>
+                            <StackPanel.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Click="MemoryCopy_Click"
+                                        Icon="Copy"
+                                        Text="复制" />
+                                    <MenuFlyoutItem
+                                        Click="MemoryDelete_Click"
+                                        Icon="Delete"
+                                        Text="删除" />
+                                </MenuFlyout>
+                            </StackPanel.ContextFlyout>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button
+                x:Name="ClearMemoryButton"
+                Grid.Row="1"
+                Margin="10,0,3,10"
+                HorizontalAlignment="Right"
+                Click="ClearMemory_Click"
+                Visibility="Visible">
+                <FontIcon Glyph="&#xE74D;" />
+            </Button>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="DockedLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="560" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MemoryListRootGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="MemoryListRootGrid.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="MemoryListView.Padding" Value="0" />
+                        <Setter Target="BackgroundShade.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DefaultLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

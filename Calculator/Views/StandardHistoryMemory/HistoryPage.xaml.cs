@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -41,7 +41,7 @@ namespace Calculator.Views
 
             ViewModel.History.CollectionChanged += HistoryItems_CollectionChanged;
             UpdateHistoryEmptyVisibility();
-            ViewModel.PerformCalculation("abc+66");
+            ViewModel.AddTestHistory("abc+66");
         }
 
         private void HistoryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

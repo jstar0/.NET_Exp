@@ -16,16 +16,16 @@
                 FontSize="100"
                 Text="&#xE8EF;" />
             <TextBlock
+                x:Uid="MainPage_Title"
                 Margin="0,0,0,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                FontSize="16"
-                Text="欢迎使用计算器" />
+                FontSize="16" />
             <TextBlock
+                x:Uid="MainPage_AuthorInfo"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="于景一 | 23090032047" />
+                Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
         <Border
             x:Name="MainPageWebViewBorder"

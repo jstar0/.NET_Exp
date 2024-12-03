@@ -20,6 +20,12 @@ public partial class CalculateModel : ObservableObject
         set;
     }
 
+    public bool WillOverwriteInputs
+    {
+        get;
+        set;
+    }
+
     [ObservableProperty]
     private string _result;
 

@@ -31,10 +31,16 @@ public class MemoryService : IMemoryService
     {
         if (_memory.Any())
         {
-            var lastItem = _memory.Last();
-            lastItem.Result = CalculateBetweenString.GetStringResult(lastItem.Result, number, "+");
-            // modify the last item in memory
-            _memory[^1] = lastItem;
+            var firstItem = _memory.First();
+            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, "+");
+
+            _memory[0] = firstItem;
+
+        }
+        else
+        {
+            // If there isn't any, add a new item
+            MemoryButtonMs(number);
         }
     }
 
@@ -42,22 +48,27 @@ public class MemoryService : IMemoryService
     {
         if (_memory.Any())
         {
-            var lastItem = _memory.Last();
-            lastItem.Result = CalculateBetweenString.GetStringResult(lastItem.Result, number, "-");
-            // modify the last item in memory
-            _memory[^1] = lastItem;
+            var firstItem = _memory.First();
+            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, "-");
+
+            _memory[0] = firstItem;
+        }
+        else
+        {
+            // revert this number (add or remove "-")
+            number = number.StartsWith('-') ? number[1..] : '-' + number;
+            MemoryButtonMs(number);
         }
     }
 
     public void MemoryButtonMs(string number)
     {
-        // Add number into the last item in memory
-        _memory.Add(new MemoryModel { Result = number });
+        // Add number into the FIRST item in memory
+        _memory.Insert(0, new MemoryModel { Result = number });
     }
 
     public void MemoryTargetMc(MemoryModel target)
     {
-        // Remove the target item from memory
         _memory.Remove(target);
     }
 
@@ -81,5 +92,10 @@ public class MemoryService : IMemoryService
             var index = _memory.IndexOf(target);
             _memory[index] = target;
         }
+    }
+
+    public void RemoveMemory(MemoryModel memoryModel)
+    {
+        _memory.Remove(memoryModel);
     }
 }

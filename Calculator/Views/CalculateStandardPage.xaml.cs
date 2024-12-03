@@ -15,6 +15,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Automation.Peers;
+using System.Collections.Specialized;
 
 namespace Calculator.Views;
 
@@ -53,11 +54,27 @@ public sealed partial class CalculateStandardPage : Page
 
     private int _previousSelectedIndex = 0;
 
+    private void UpdateMemoryButtonEnabling(object? sender, NotifyCollectionChangedEventArgs? e)
+    {
+        if (ViewModel.Memory.Count == 0)
+        {
+            ButtonMc.IsEnabled = false;
+            ButtonMr.IsEnabled = false;
+        }
+        else
+        {
+            ButtonMc.IsEnabled = true;
+            ButtonMr.IsEnabled = true;
+        }
+    }
+
     public CalculateStandardPage()
     {
         ViewModel = App.GetService<CalculateStandardViewModel>();
         InitializeComponent();
         DataContext = ViewModel;
+        ViewModel.Memory.CollectionChanged += UpdateMemoryButtonEnabling;
+        UpdateMemoryButtonEnabling(null, null);
         //KeyboardShortcutMgr.Initialize(this);
 
         // 本页禁用标题

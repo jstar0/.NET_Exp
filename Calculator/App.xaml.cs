@@ -68,6 +68,8 @@ public partial class App : Application
             services.AddSingleton<ILanguageService, LanguageService>();
             // 注册计算器历史记录服务
             services.AddSingleton<IHistoryService, HistoryService>();
+            // 注册计算器记忆服务
+            services.AddSingleton<IMemoryService, MemoryService>();
             // 注册计算器计算服务
             services.AddSingleton<ICalculateService, CalculateService>();
 

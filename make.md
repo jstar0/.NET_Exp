@@ -391,3 +391,12 @@ VisualStateManager.GoToState(ButtonMc, "Normal", true);
 默认的按钮样式在
 
 `%UserProfile%\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\lib\uap10.0\Microsoft.UI\Themes`
+
+### ToolTip
+
+为 Button 修改 ToolTip
+
+```xml
+<Button
+    ToolTipService.ToolTip="(记忆调用) Ctrl+R">
+```

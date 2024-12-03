@@ -203,4 +203,31 @@
   <data name="InvalidString" xml:space="preserve">
     <value>Result Invalid</value>
   </data>
+  <data name="ButtonMr.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Memory Call (Ctrl+R)</value>
+  </data>
+  <data name="ButtonMc.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Clear Memory (Ctrl+L)</value>
+  </data>
+  <data name="ButtonMp.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Memory Addition (Ctrl+P)</value>
+  </data>
+  <data name="ButtonMm.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Memory Subtraction (Ctrl+Q)</value>
+  </data>
+  <data name="ButtonMs.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Memory Storage (Ctrl+M)</value>
+  </data>
+  <data name="MainPage_Title.Text" xml:space="preserve">
+    <value>Welcome to the Calculator</value>
+  </data>
+  <data name="MainPage_AuthorInfo.Text" xml:space="preserve">
+    <value>JStar0  |  23090032047</value>
+  </data>
+  <data name="SelectorBarHistory.Text" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="SelectorBarMemory.Text" xml:space="preserve">
+    <value>Memory</value>
+  </data>
 </root>

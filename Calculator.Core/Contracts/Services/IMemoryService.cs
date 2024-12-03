@@ -26,4 +26,6 @@ public interface IMemoryService
     void MemoryTargetMp(MemoryModel target, string number);
 
     void MemoryTargetMm(MemoryModel target, string number);
+
+    void RemoveMemory(MemoryModel memoryModel);
 }

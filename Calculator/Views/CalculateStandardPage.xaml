@@ -104,10 +104,12 @@
 
                     <Button
                         x:Name="ButtonMc"
+                        x:Uid="ButtonMc"
                         Grid.Column="0"
                         Command="{Binding ButtonMcCommand}"
                         FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorMemoryButton}">
+                        Style="{StaticResource CalculatorMemoryButton}"
+                        ToolTipService.ToolTip="(清除所有记忆) Ctrl+L">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="L"
@@ -118,6 +120,7 @@
                     </Button>
                     <Button
                         x:Name="ButtonMr"
+                        x:Uid="ButtonMr"
                         Grid.Column="1"
                         Command="{Binding ButtonMrCommand}"
                         FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
@@ -131,11 +134,12 @@
                         MR
                     </Button>
                     <Button
-                        x:Name="ButtonMp"
+                        x:Uid="ButtonMp"
                         Grid.Column="2"
                         Command="{Binding ButtonMpCommand}"
                         FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorMemoryButton}">
+                        Style="{StaticResource CalculatorMemoryButton}"
+                        ToolTipService.ToolTip="(记忆加法) Ctrl+P">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="P"
@@ -145,11 +149,12 @@
                         M+
                     </Button>
                     <Button
-                        x:Name="ButtonMm"
+                        x:Uid="ButtonMm"
                         Grid.Column="3"
                         Command="{Binding ButtonMmCommand}"
                         FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorMemoryButton}">
+                        Style="{StaticResource CalculatorMemoryButton}"
+                        ToolTipService.ToolTip="(记忆减法) Ctrl+Q">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="Q"
@@ -159,11 +164,12 @@
                         M-
                     </Button>
                     <Button
-                        x:Name="ButtonMs"
+                        x:Uid="ButtonMs"
                         Grid.Column="4"
                         Command="{Binding ButtonMsCommand}"
                         FontSize="{Binding MemoryButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorMemoryButton}">
+                        Style="{StaticResource CalculatorMemoryButton}"
+                        ToolTipService.ToolTip="(记忆存储) Ctrl+M">
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="M"
@@ -396,11 +402,8 @@
 
             <Grid x:Name="RightContent" Grid.Column="1">
                 <SelectorBar x:Name="SelectorBar" SelectionChanged="SelectorBar_SelectionChanged">
-                    <SelectorBarItem
-                        x:Name="SelectorBarHistory"
-                        IsSelected="True"
-                        Text="历史记录" />
-                    <SelectorBarItem x:Name="SelectorBarMemory" Text="存储" />
+                    <SelectorBarItem x:Uid="SelectorBarHistory" IsSelected="True" />
+                    <SelectorBarItem x:Uid="SelectorBarMemory" />
                 </SelectorBar>
                 <Frame
                     x:Name="HistoryMemoryFrame"

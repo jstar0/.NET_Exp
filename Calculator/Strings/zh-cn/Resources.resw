@@ -203,4 +203,31 @@
   <data name="InvalidString" xml:space="preserve">
     <value>结果出错</value>
   </data>
+  <data name="ButtonMr.ToolTipService.ToolTip" xml:space="preserve">
+    <value>记忆调用 (Ctrl+R)</value>
+  </data>
+  <data name="ButtonMc.ToolTipService.ToolTip" xml:space="preserve">
+    <value>清除所有记忆 (Ctrl+L)</value>
+  </data>
+  <data name="ButtonMp.ToolTipService.ToolTip" xml:space="preserve">
+    <value>记忆加法 (Ctrl+P)</value>
+  </data>
+  <data name="ButtonMm.ToolTipService.ToolTip" xml:space="preserve">
+    <value>记忆减法 (Ctrl+Q)</value>
+  </data>
+  <data name="ButtonMs.ToolTipService.ToolTip" xml:space="preserve">
+    <value>记忆存储 (Ctrl+M)</value>
+  </data>
+  <data name="MainPage_Title.Text" xml:space="preserve">
+    <value>欢迎使用计算器</value>
+  </data>
+  <data name="MainPage_AuthorInfo.Text" xml:space="preserve">
+    <value>于景一  |  23090032047</value>
+  </data>
+  <data name="SelectorBarHistory.Text" xml:space="preserve">
+    <value>历史记录</value>
+  </data>
+  <data name="SelectorBarMemory.Text" xml:space="preserve">
+    <value>记忆</value>
+  </data>
 </root>
