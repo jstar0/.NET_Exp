@@ -13,7 +13,7 @@ public class HistoryService : IHistoryService
 
     public void AddHistory(string expression, string result)
     {
-        _history.Add(new HistoryModel { Expression = expression, Result = result });
+        _history.Insert(0, new HistoryModel { Expression = expression, Result = result });
     }
 
     public void RemoveHistory(HistoryModel historyModel)

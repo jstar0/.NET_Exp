@@ -12,14 +12,11 @@ public static class OperatorExtension
     {
         return operatorType switch
         {
+            OperatorType.Null => "null",
             OperatorType.Add => "+",
             OperatorType.Subtract => "-",
-            OperatorType.Multiply => "*",
-            OperatorType.Divide => "/",
-            OperatorType.Invert => "1/x",
-            OperatorType.XPower2 => "x^2",
-            OperatorType.Sqrt => "sqrt",
-            OperatorType.Percent => "%",
+            OperatorType.Multiply => "×",
+            OperatorType.Divide => "÷",
             OperatorType.Equal => "=",
             _ => ""
         };

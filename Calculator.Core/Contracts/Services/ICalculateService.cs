@@ -21,9 +21,13 @@ public interface ICalculateService : INotifyPropertyChanged
 
     void BackspacePress();
 
-    void PerformCalculate(OperatorType operatorType);
+    void CE();
 
-    void PerformFourOperation(OperatorType operatorType);
+    void C();
+
+    void Reverse();
+
+    void FourOperation(int op);
 
     void PerformInvert();
 
@@ -34,4 +38,6 @@ public interface ICalculateService : INotifyPropertyChanged
     void PerformPercent();
 
     void PerformEqual();
+
+    void MakeExpression();
 }

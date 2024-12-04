@@ -1,4 +1,5 @@
 ﻿using Calculator.Contracts.Services;
+using Calculator.Helpers;
 using Calculator.ViewModels;
 
 using Microsoft.UI.Dispatching;
@@ -28,6 +29,7 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
     {
         // TODO: Handle notification activations.
 
+
         // Access the AppNotificationActivatedEventArgs.
         var activatedEventArgs = (AppNotificationActivatedEventArgs)AppInstance.GetCurrent().GetActivatedEventArgs().Data;
 
@@ -43,7 +45,7 @@ public class AppNotificationActivationHandler : ActivationHandler<LaunchActivate
 
         App.MainWindow.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification activations.", "Notification Activation");
+            App.MainWindow.ShowMessageDialogAsync("NotificationString_OpenFromNote_Content".GetLocalized(), "NotificationString_OpenFromNote_Title".GetLocalized());
         });
 
         await Task.CompletedTask;

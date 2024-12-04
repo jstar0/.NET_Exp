@@ -145,7 +145,7 @@
     <value>About this application</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>TODO: Replace with your app description.</value>
+    <value>This calculator was created by JStar0 23090032047 and is based on WinUI 3.It is modeled after the official standard calculator implementation.</value>
   </data>
   <data name="SettingsPage_RepoLink.Content" xml:space="preserve">
     <value>Repo Link</value>
@@ -157,13 +157,13 @@
     <value>&lt;toast launch="action=ToastClick"&gt;
   &lt;visual&gt;
     &lt;binding template="ToastGeneric"&gt;
-      &lt;text&gt;App Notification&lt;/text&gt;
+      &lt;text&gt;You've successfully opened the Calculator&lt;/text&gt;
       &lt;text&gt;&lt;/text&gt;
       &lt;image placement="appLogoOverride" hint-crop="circle" src="{0}Assets/WindowIcon.ico"/&gt;
     &lt;/binding&gt;
   &lt;/visual&gt;
   &lt;actions&gt;
-    &lt;action content="Settings" arguments="action=Settings"/&gt;
+    &lt;action content="Change Settings" arguments="action=Settings"/&gt;
   &lt;/actions&gt;
 &lt;/toast&gt;</value>
   </data>
@@ -201,7 +201,7 @@
     <value>OK</value>
   </data>
   <data name="InvalidString" xml:space="preserve">
-    <value>Result Invalid</value>
+    <value>Value Invalid</value>
   </data>
   <data name="ButtonMr.ToolTipService.ToolTip" xml:space="preserve">
     <value>Memory Call (Ctrl+R)</value>
@@ -229,5 +229,32 @@
   </data>
   <data name="SelectorBarMemory.Text" xml:space="preserve">
     <value>Memory</value>
+  </data>
+  <data name="NotificationString_OpenFromNote_Title" xml:space="preserve">
+    <value>Opened from Note</value>
+  </data>
+  <data name="NotificationString_OpenFromNote_Content" xml:space="preserve">
+    <value>You've opened the Calculator from System Notice.</value>
+  </data>
+  <data name="NotificationString_OpenInvoked_Title" xml:space="preserve">
+    <value>Open Invoked</value>
+  </data>
+  <data name="NotificationString_OpenInvoked_Content" xml:space="preserve">
+    <value>You invoked this program by the System Notification Service while the program was running.</value>
+  </data>
+  <data name="MemoryEmptyNotice.Text" xml:space="preserve">
+    <value>No memory available.</value>
+  </data>
+  <data name="HistoryEmptyNotice.Text" xml:space="preserve">
+    <value>No history available.</value>
+  </data>
+  <data name="CopyString.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="PasteString.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="DeleteString.Text" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

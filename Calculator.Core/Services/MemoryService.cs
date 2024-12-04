@@ -32,7 +32,7 @@ public class MemoryService : IMemoryService
         if (_memory.Any())
         {
             var firstItem = _memory.First();
-            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, "+");
+            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, OperatorType.Add);
 
             _memory[0] = firstItem;
 
@@ -49,15 +49,19 @@ public class MemoryService : IMemoryService
         if (_memory.Any())
         {
             var firstItem = _memory.First();
-            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, "-");
+            firstItem.Result = CalculateBetweenString.GetStringResult(firstItem.Result, number, OperatorType.Subtract);
 
             _memory[0] = firstItem;
         }
         else
         {
             // revert this number (add or remove "-")
-            number = number.StartsWith('-') ? number[1..] : '-' + number;
-            MemoryButtonMs(number);
+            if (number != "0")
+            {
+                number = number.StartsWith('-') ? number[1..] : '-' + number;
+                MemoryButtonMs(number);
+            }
+
         }
     }
 
@@ -76,7 +80,7 @@ public class MemoryService : IMemoryService
     {
         if (_memory.Contains(target))
         {
-            target.Result = CalculateBetweenString.GetStringResult(target.Result, number, "+");
+            target.Result = CalculateBetweenString.GetStringResult(target.Result, number, OperatorType.Add);
             // Update the target item in memory
             var index = _memory.IndexOf(target);
             _memory[index] = target;
@@ -87,7 +91,7 @@ public class MemoryService : IMemoryService
     {
         if (_memory.Contains(target))
         {
-            target.Result = CalculateBetweenString.GetStringResult(target.Result, number, "-");
+            target.Result = CalculateBetweenString.GetStringResult(target.Result, number, OperatorType.Subtract);
             // Update the target item in memory
             var index = _memory.IndexOf(target);
             _memory[index] = target;

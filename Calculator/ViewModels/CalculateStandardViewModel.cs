@@ -29,6 +29,8 @@ public partial class CalculateStandardViewModel : ObservableRecipient
 
     public ObservableCollection<MemoryModel> Memory => _memoryService.Memory;
 
+    #region Old Memory Reverse Method
+    
     /*private ObservableCollection<MemoryModel>? _reversedMemory;
     public ObservableCollection<MemoryModel> ReversedMemory
     {
@@ -57,6 +59,9 @@ public partial class CalculateStandardViewModel : ObservableRecipient
         //_reversedMemory.CollectionChanged += ReversedMemory_CollectionChanged;
     }*/
 
+    #endregion
+
+
     [ObservableProperty]
     private CalculateModel _calculateItem;
 
@@ -83,6 +88,89 @@ public partial class CalculateStandardViewModel : ObservableRecipient
         }
     }
 
+    #region Calculate
+
+    public ICommand NumpadButtonCommand => new RelayCommand<string>(OnNumberButtonClicked);
+    public ICommand DecimalPointButtonCommand => new RelayCommand(_calculateService.DecimalPointPress);
+    public ICommand BackspaceButtonCommand => new RelayCommand(_calculateService.BackspacePress);
+    public ICommand ReverseButtonCommand => new RelayCommand(_calculateService.Reverse);
+    public ICommand CEButtonCommand => new RelayCommand(_calculateService.CE);
+    public ICommand CButtonCommand => new RelayCommand(_calculateService.C);
+    public ICommand InvertButtonCommand => new RelayCommand(OnInvertButtonClicked);
+    public ICommand XPower2ButtonCommand => new RelayCommand(OnXPower2ButtonClicked);
+    public ICommand SquareRootButtonCommand => new RelayCommand(OnSquareRootButtonClicked);
+    public ICommand PercentButtonCommand => new RelayCommand(_calculateService.PerformPercent);
+    public ICommand FourOperationCommand => new RelayCommand<string>(OnFourOperationClicked);
+    public ICommand EqualCommand => new RelayCommand(OnEqualButtonClicked);
+
+    /* 使用 Action exec 作为参数
+    public ICommand InvertButtonCommand => new RelayCommand(() => OnFunctionButtonClicked(_calculateService.PerformInvert));
+    
+    // If there's a return type: Func<RETURN TYPE> exec
+    private void OnFunctionButtonClicked(Action exec)
+    {
+        var tmpResult = CalculateItem.Result;
+        exec();
+        _historyService.AddHistory($"1/({tmpResult}) =", CalculateItem.Result);
+    }*/
+
+    private void OnInvertButtonClicked()
+    {
+        var tmpResult = CalculateItem.Result;
+        _calculateService.PerformInvert();
+        _historyService.AddHistory($"1/({tmpResult}) =", CalculateItem.Result);
+    }
+
+    private void OnXPower2ButtonClicked()
+    {
+        var tmpResult = CalculateItem.Result;
+        _calculateService.PerformXPower2();
+        _historyService.AddHistory($"1/({tmpResult}) =", CalculateItem.Result);
+    }
+
+    private void OnSquareRootButtonClicked()
+    {
+        var tmpResult = CalculateItem.Result;
+        _calculateService.PerformSquareRoot();
+        _historyService.AddHistory($"1/({tmpResult}) =", CalculateItem.Result);
+    }
+
+    private void OnEqualButtonClicked()
+    {
+        _calculateService.PerformEqual();
+        _historyService.AddHistory(CalculateItem.Expression, CalculateItem.Result);
+    }
+
+    private void OnNumberButtonClicked(string? number)
+    {
+        if (number == null)
+        {
+            return;
+        }
+
+        _calculateService.NumpadPress(number);
+    }
+
+    private void OnFourOperationClicked(string? op)
+    {
+        _calculateService.FourOperation(int.Parse(op!));
+    }
+
+    public void ClearWithResult(string result)
+    {
+        CalculateItem.Operand1 = null;
+        CalculateItem.Operand2 = null;
+        CalculateItem.WillClearExpression = false;
+        CalculateItem.WillOverwriteInputs = false;
+        CalculateItem.Operator = OperatorType.Null;
+        _calculateService.MakeExpression();
+        CalculateItem.Result = (decimal.TryParse(result, out _)) ? result : "";
+    }
+
+    #endregion
+
+    #region Menu
+
     public ICommand TextBlockCopy => new RelayCommand(TextBlockOnCopy);
 
     private void TextBlockOnCopy()
@@ -102,26 +190,19 @@ public partial class CalculateStandardViewModel : ObservableRecipient
     private async void TextBlockOnPaste()
     {
         var package = Clipboard.GetContent();
-        if (package.Contains(StandardDataFormats.Text) && double.TryParse(await package.GetTextAsync(), out var v))
+        if (package.Contains(StandardDataFormats.Text))
         {
-            CalculateItem.Result = v.ToString(CultureInfo.InvariantCulture);
+            var text = await package.GetTextAsync();
+            if (decimal.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var v))
+            {
+                CalculateItem.Result = v.ToString(CultureInfo.InvariantCulture);
+            }
         }
     }
 
-    public ICommand NumpadButtonCommand => new RelayCommand<string>(OnNumberButtonClicked);
+    #endregion
 
-    private void OnNumberButtonClicked(string? number)
-    {
-        if (number == null)
-        {
-            return;
-        }
-
-        _calculateService.NumpadPress(number);
-    }
-
-    public ICommand DecimalPointButtonCommand => new RelayCommand(_calculateService.DecimalPointPress);
-    public ICommand BackspaceButtonCommand => new RelayCommand(_calculateService.BackspacePress);
+    #region Memory
 
     public ICommand ButtonMcCommand => new RelayCommand(OnButtonMcClicked);
     public ICommand ButtonMrCommand => new RelayCommand(OnButtonMrClicked);
@@ -172,17 +253,9 @@ public partial class CalculateStandardViewModel : ObservableRecipient
         _memoryService.MemoryTargetMm(item, CalculateItem.Result);
     }
 
+    #endregion
 
-    // Method to perform calculation and add to history
-    public void AddTestHistory(string expression)
-    {
-        // Perform calculation logic...
-        string result = "666"/* calculation result */;
-
-        // Add to history
-        _historyService.AddHistory(expression, result);
-    }
-
+    #region History
     public void RemoveHistory(HistoryModel historyModel)
     {
         _historyService.RemoveHistory(historyModel);
@@ -192,4 +265,7 @@ public partial class CalculateStandardViewModel : ObservableRecipient
     {
         _memoryService.RemoveMemory(memoryModel);
     }
+
+    #endregion
+
 }

@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Threading.Tasks;
 using Calculator.Core.Contracts.Services;
 using Calculator.Core.Helpers;
 using Calculator.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using String = System.String;
 
 namespace Calculator.Core.Services;
 public partial class CalculateService : ObservableObject, ICalculateService
@@ -25,6 +29,15 @@ public partial class CalculateService : ObservableObject, ICalculateService
 
     public void NumpadPress(string number)
     {
+        if (Calculate.WillClearExpression)
+        {
+            Calculate = new CalculateModel()
+            {
+                Result = number
+            };
+            return;
+        }
+
         if (Calculate.WillOverwriteInputs)
         {
             Calculate.Result = number;
@@ -80,75 +93,148 @@ public partial class CalculateService : ObservableObject, ICalculateService
         Calculate.Result += ".";
     }
 
-    public void PerformCalculate(OperatorType operatorType)
+    public void CE()
     {
-        switch (operatorType)
+        if (Calculate.Operator != OperatorType.Equal)
         {
-            case OperatorType.Add:
-            case OperatorType.Subtract:
-            case OperatorType.Multiply:
-            case OperatorType.Divide:
-                PerformFourOperation(operatorType);
-                break;
-            case OperatorType.Invert:
-                PerformInvert();
-                break;
-            case OperatorType.XPower2:
-                PerformXPower2();
-                break;
-            case OperatorType.Sqrt:
-                PerformSquareRoot();
-                break;
-            case OperatorType.Percent:
-                PerformPercent();
-                break;
-            case OperatorType.Equal:
-                PerformEqual();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(operatorType), operatorType, null);
+            Calculate.Result = "0";
+            Calculate.WillOverwriteInputs = false;
+            return;
+        }
+
+        this.C();
+    }
+
+    public void C()
+    {
+        Calculate = new CalculateModel()
+        {
+            Result = "0"
+        };
+    }
+
+    public void Reverse()
+    {
+        if (Calculate.Result != "0")
+        {
+            Calculate.Result = Calculate.Result.StartsWith('-') ? Calculate.Result[1..] : '-' + Calculate.Result;
         }
     }
 
-    public void PerformFourOperation(OperatorType operatorType)
+    public void FourOperation(int op)
     {
-        /*if (string.IsNullOrEmpty(Calculate.Operator.GetOperatorSymbol()))
+
+        var operatorType = op switch
         {
-            Calculate.Expr.Operator = operatorType.GetOperatorSymbol();
+            0 => OperatorType.Add,
+            1 => OperatorType.Subtract,
+            2 => OperatorType.Multiply,
+            3 => OperatorType.Divide,
+            _ => throw new ArgumentOutOfRangeException(nameof(op), op, null)
+        };
+
+        // User has performed EQUAL operation
+        if (Calculate.WillClearExpression)
+        {
+            Calculate.Operand1 = Calculate.Result;
             Calculate.Operator = operatorType;
-            Calculate.Expr.Operand1 = Calculate.Result;
+            Calculate.Operand2 = null;
+            MakeExpression();
+            Calculate.WillClearExpression = false;
+            return;
+        }
+
+        // User didn't change RESULT after last operation
+        if (Calculate.WillOverwriteInputs)
+        {
+            Calculate.Operator = operatorType;
+            MakeExpression();
+            Calculate.WillOverwriteInputs = true;
+            return;
+        }
+
+        if (Calculate.Operator != OperatorType.Null)
+        {
+            Calculate.Operand1 = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Result,
+                Calculate.Operator);
         }
         else
         {
-            var result = CalculateBetweenString.GetStringResult(Calculate.Operand, Calculate.Result, Calculate.Expr.Operator);
-            Calculate.Expr.Operand1 = Calculate.Result = result;
-            Calculate.Expr.Operator = operatorType.GetOperatorSymbol();
-            Calculate.Operator = operatorType;
-        }*/
+            Calculate.Operand1 = Calculate.Result;
+        }
+
+        Calculate.Operator = operatorType;
+        Calculate.WillOverwriteInputs = true;
+        MakeExpression();
     }
 
     public void PerformInvert()
     {
-    
+        Calculate.Result = Calculate.Result == "0" ? "N/A" : CalculateBetweenString.InvertNumber(Calculate.Result);
+        Calculate.WillOverwriteInputs = true;
     }
 
     public void PerformXPower2()
     {
-
+        Calculate.Result = CalculateBetweenString.XPower2(Calculate.Result);
+        Calculate.WillOverwriteInputs = true;
     }
 
     public void PerformSquareRoot()
     {
-    
+        Calculate.Result = CalculateBetweenString.SquareRoot(Calculate.Result);
+        Calculate.WillOverwriteInputs = true;
     }
 
     public void PerformPercent()
     {
-    
+        Calculate.Result = CalculateBetweenString.PercentNumber(Calculate.Result);
+        Calculate.WillOverwriteInputs = true;
     }
 
     public void PerformEqual()
     {
-    
+        if (Calculate.Result is "N/A" or "InvalidString")
+        {
+            return;
+        }
+
+        if (Calculate.Operator == OperatorType.Divide && (Calculate.Operand2 == "0" || 
+                                                          (Calculate.Operand2 == null && Calculate.Result == "0")))
+        {
+            Calculate.Result = "N/A";
+        }
+        else if (Calculate.Operator is OperatorType.Null or OperatorType.Equal)
+        {
+            Calculate.Operand1 = Calculate.Result;
+            Calculate.Operator = OperatorType.Equal;
+        }
+        else if (Calculate.Operand2 is null)
+        {
+            Calculate.Operand2 = Calculate.Result;
+            Calculate.Result = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Operand2, Calculate.Operator);
+        }
+        else
+        {
+            Calculate.Operand1 = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Operand2,
+                Calculate.Operator);
+            Calculate.Result = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Operand2, Calculate.Operator);
+        }
+        Calculate.WillOverwriteInputs = true;
+        Calculate.WillClearExpression = true;
+        MakeExpression();
+    }
+
+    public void MakeExpression()
+    {
+        if (Calculate.Operand1 == null)
+        {
+            Calculate.Expression = "";
+            return;
+        }
+
+        Calculate.Expression = (string.IsNullOrEmpty(Calculate.Operand2))
+            ? $"{Calculate.Operand1} {Calculate.Operator.GetOperatorSymbol()}"
+            : $"{Calculate.Operand1} {Calculate.Operator.GetOperatorSymbol()} {Calculate.Operand2} =";
     }
 }

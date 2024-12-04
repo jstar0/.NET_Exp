@@ -14,7 +14,7 @@ public class NumberFormatterConverter : IValueConverter
         if (value is string stringValue && decimal.TryParse(stringValue, out var decimalValue))
         {
             // 判断数值范围
-            if (Math.Abs(decimalValue) >= (decimal)1e16 /*|| Math.Abs(decimalValue) <= 0.00001m*/)
+            if (Math.Abs(decimalValue) >= 1e20m || Math.Abs(decimalValue) <= 0.0000001m && Math.Abs(decimalValue) != 0)
             {
                 // 使用科学计数法
                 return decimalValue.ToString("E2", CultureInfo.InvariantCulture);

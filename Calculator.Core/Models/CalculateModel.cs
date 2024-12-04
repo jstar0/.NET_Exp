@@ -26,6 +26,12 @@ public partial class CalculateModel : ObservableObject
         set;
     }
 
+    public bool WillClearExpression
+    {
+        get;
+        set;
+    }
+
     [ObservableProperty]
     private string _result;
 
@@ -38,13 +44,10 @@ public partial class CalculateModel : ObservableObject
 
 public enum OperatorType
 {
+    Null,
     Add,
     Subtract,
     Multiply,
     Divide,
-    Invert,
-    XPower2,
-    Sqrt,
-    Percent,
     Equal
 }

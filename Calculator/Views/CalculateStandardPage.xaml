@@ -55,7 +55,7 @@
                         HorizontalAlignment="Right"
                         FontSize="12"
                         Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="Expressions Here" />
+                        Text="{Binding CalculateItem.Expression, Mode=OneWay}" />
                     <ScrollViewer
                         x:Name="NormalOutPutContainer"
                         Padding="0,0,0,0"
@@ -73,16 +73,26 @@
                             Text="{Binding CalculateItem.Result, Converter={StaticResource NumberStringFormatter}, Mode=OneWay}"
                             TextAlignment="Right"
                             TextWrapping="WrapWholeWords" />
+                        <ScrollViewer.KeyboardAccelerators>
+                            <KeyboardAccelerator
+                                Key="C"
+                                Invoked="OnTextBlockCopyInvoked"
+                                Modifiers="Control" />
+                            <KeyboardAccelerator
+                                Key="V"
+                                Invoked="OnTextBlockPasteInvoked"
+                                Modifiers="Control" />
+                        </ScrollViewer.KeyboardAccelerators>
                         <ScrollViewer.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem
+                                    x:Uid="CopyString"
                                     Command="{Binding TextBlockCopy}"
-                                    Icon="Copy"
-                                    Text="复制" />
+                                    Icon="Copy" />
                                 <MenuFlyoutItem
+                                    x:Uid="PasteString"
                                     Command="{Binding TextBlockPaste}"
-                                    Icon="Paste"
-                                    Text="粘贴" />
+                                    Icon="Paste" />
                             </MenuFlyout>
                         </ScrollViewer.ContextFlyout>
                     </ScrollViewer>
@@ -113,7 +123,7 @@
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="L"
-                                Invoked="OnButtonMemoryInvoked"
+                                Invoked="OnButtonInvokedExecArgsNull"
                                 Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                         MC
@@ -128,7 +138,7 @@
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="R"
-                                Invoked="OnButtonMemoryInvoked"
+                                Invoked="OnButtonInvokedExecArgsNull"
                                 Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                         MR
@@ -143,7 +153,7 @@
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="P"
-                                Invoked="OnButtonMemoryInvoked"
+                                Invoked="OnButtonInvokedExecArgsNull"
                                 Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                         M+
@@ -158,7 +168,7 @@
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="Q"
-                                Invoked="OnButtonMemoryInvoked"
+                                Invoked="OnButtonInvokedExecArgsNull"
                                 Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                         M-
@@ -173,7 +183,7 @@
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator
                                 Key="M"
-                                Invoked="OnButtonMemoryInvoked"
+                                Invoked="OnButtonInvokedExecArgsNull"
                                 Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                         MS
@@ -206,6 +216,7 @@
                     <Button
                         Grid.Row="0"
                         Grid.Column="0"
+                        Command="{Binding PercentButtonCommand}"
                         Content="&#xE94C;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
@@ -213,15 +224,21 @@
                     <Button
                         Grid.Row="0"
                         Grid.Column="1"
+                        Command="{Binding CEButtonCommand}"
                         Content="CE"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
                         Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
                     <Button
                         Grid.Row="0"
                         Grid.Column="2"
+                        Command="{Binding CButtonCommand}"
                         Content="C"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Escape" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="0"
                         Grid.Column="3"
@@ -229,26 +246,41 @@
                         Content="&#xE94F;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Back" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                     <!--  第二行  -->
                     <Button
                         Grid.Row="1"
                         Grid.Column="0"
+                        Command="{Binding InvertButtonCommand}"
                         Content="&#xf7c9;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="R" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="1"
                         Grid.Column="1"
+                        Command="{Binding XPower2ButtonCommand}"
                         Content="&#xf7c8;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Q" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="1"
                         Grid.Column="2"
+                        Command="{Binding SquareRootButtonCommand}"
                         Content="&#xF899;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
@@ -256,10 +288,16 @@
                     <Button
                         Grid.Row="1"
                         Grid.Column="3"
+                        Command="{Binding FourOperationCommand}"
+                        CommandParameter="3"
                         Content="&#xE94A;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Divide" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                     <!--  第三行  -->
                     <Button
@@ -270,7 +308,12 @@
                         CommandParameter="7"
                         Content="7"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number7" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad7" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         x:Name="Numpad8Button"
                         Grid.Row="2"
@@ -279,7 +322,12 @@
                         CommandParameter="8"
                         Content="8"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number8" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad8" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="2"
                         Grid.Column="2"
@@ -287,15 +335,25 @@
                         CommandParameter="9"
                         Content="9"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number9" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad9" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
-                        x:Name="Numpad9Button"
                         Grid.Row="2"
                         Grid.Column="3"
+                        Command="{Binding FourOperationCommand}"
+                        CommandParameter="2"
                         Content="&#xE947;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Multiply" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                     <!--  第四行  -->
                     <Button
@@ -306,7 +364,12 @@
                         CommandParameter="4"
                         Content="4"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number4" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad4" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         x:Name="Numpad5Button"
                         Grid.Row="3"
@@ -315,7 +378,12 @@
                         CommandParameter="5"
                         Content="5"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number5" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad5" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         x:Name="Numpad6Button"
                         Grid.Row="3"
@@ -324,14 +392,25 @@
                         CommandParameter="6"
                         Content="6"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number6" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad6" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="3"
                         Grid.Column="3"
+                        Command="{Binding FourOperationCommand}"
+                        CommandParameter="1"
                         Content="&#xE949;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Subtract" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                     <!--  第五行  -->
                     <Button
@@ -341,7 +420,12 @@
                         CommandParameter="1"
                         Content="1"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number1" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad1" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="4"
                         Grid.Column="1"
@@ -349,7 +433,12 @@
                         CommandParameter="2"
                         Content="2"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number2" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad2" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="4"
                         Grid.Column="2"
@@ -357,19 +446,31 @@
                         CommandParameter="3"
                         Content="3"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number3" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad3" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="4"
                         Grid.Column="3"
+                        Command="{Binding FourOperationCommand}"
+                        CommandParameter="0"
                         Content="&#xE948;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource TransparentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Add" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                     <!--  第六行  -->
                     <Button
                         Grid.Row="5"
                         Grid.Column="0"
+                        Command="{Binding ReverseButtonCommand}"
                         Content="&#xF898;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
@@ -381,21 +482,35 @@
                         CommandParameter="0"
                         Content="0"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Number0" Invoked="OnButtonInvokedExecArgsNull" />
+                            <KeyboardAccelerator Key="NumberPad0" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="5"
                         Grid.Column="2"
                         Command="{Binding DecimalPointButtonCommand}"
                         Content="."
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource CalculatorStandardButtonStyle}" />
+                        Style="{StaticResource CalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Decimal" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
                     <Button
                         Grid.Row="5"
                         Grid.Column="3"
+                        Command="{Binding EqualCommand}"
                         Content="&#xE94E;"
                         FontFamily="{StaticResource CalculatorIconsFont}"
                         FontSize="{Binding NumpadButtonFontSize, ElementName=Root}"
-                        Style="{StaticResource AccentCalculatorStandardButtonStyle}" />
+                        Style="{StaticResource AccentCalculatorStandardButtonStyle}">
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Enter" Invoked="OnButtonInvokedExecArgsNull" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
 
                 </Grid>
             </Grid>

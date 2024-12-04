@@ -41,7 +41,6 @@ namespace Calculator.Views
 
             ViewModel.History.CollectionChanged += HistoryItems_CollectionChanged;
             UpdateHistoryEmptyVisibility();
-            ViewModel.AddTestHistory("abc+66");
         }
 
         private void HistoryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -82,7 +81,10 @@ namespace Calculator.Views
 
         private void HistoryListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            if (e.ClickedItem is HistoryModel historyModel)
+            {
+                ViewModel.ClearWithResult(historyModel.Result);
+            }
         }
     }
 }

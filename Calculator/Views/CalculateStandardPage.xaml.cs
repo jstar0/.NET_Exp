@@ -16,6 +16,7 @@ using Windows.System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Automation.Peers;
 using System.Collections.Specialized;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Calculator.Views;
 
@@ -75,7 +76,6 @@ public sealed partial class CalculateStandardPage : Page
         DataContext = ViewModel;
         ViewModel.Memory.CollectionChanged += UpdateMemoryButtonEnabling;
         UpdateMemoryButtonEnabling(null, null);
-        //KeyboardShortcutMgr.Initialize(this);
 
         // 本页禁用标题
         NavigationViewHeaderBehavior.SetHeaderMode(this, NavigationViewHeaderMode.Never);
@@ -104,7 +104,7 @@ public sealed partial class CalculateStandardPage : Page
         _previousSelectedIndex = currentSelectedIndex;
     }
 
-    private void OnButtonMemoryInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    private void OnButtonInvokedExecArgsNull(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
         // Ensure the code runs on the UI thread
         DispatcherQueue.TryEnqueue(async () =>
@@ -127,6 +127,24 @@ public sealed partial class CalculateStandardPage : Page
                 VisualStateManager.GoToState(button, "Normal", true);
             }
         });
+        args.Handled = true;
+    }
+
+    private void OnTextBlockCopyInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        if (ViewModel.TextBlockCopy.CanExecute(null))
+        {
+            ViewModel.TextBlockCopy.Execute(null);
+        }
+        args.Handled = true;
+    }
+
+    private void OnTextBlockPasteInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+    {
+        if (ViewModel.TextBlockPaste.CanExecute(null))
+        {
+            ViewModel.TextBlockPaste.Execute(null);
+        }
         args.Handled = true;
     }
 }

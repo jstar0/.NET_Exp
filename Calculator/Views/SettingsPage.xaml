@@ -82,7 +82,8 @@
 
                 <TextBlock
                     x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
+                    Margin="5,0,10,0"
+                    Padding="0,5,0,0"
                     Style="{ThemeResource BodyTextBlockStyle}" />
                 <HyperlinkButton x:Uid="SettingsPage_RepoLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
             </StackPanel>

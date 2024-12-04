@@ -2,6 +2,7 @@
 using System.Web;
 
 using Calculator.Contracts.Services;
+using Calculator.Helpers;
 using Calculator.ViewModels;
 
 using Microsoft.Windows.AppNotifications;
@@ -44,7 +45,7 @@ public class AppNotificationService : IAppNotificationService
 
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>
         {
-            App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
+            App.MainWindow.ShowMessageDialogAsync("NotificationString_OpenInvoked_Content".GetLocalized(), "NotificationString_OpenInvoked_Title".GetLocalized());
 
             App.MainWindow.BringToFront();
         });

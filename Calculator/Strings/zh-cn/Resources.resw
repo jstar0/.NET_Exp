@@ -145,7 +145,7 @@
     <value>关于本程序</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>APP介绍</value>
+    <value>本程序是由 于景一 23090032047 制作的，基于 WinUI 3 实现的计算器。&#x0a;仿照了官方的标准计算器实现。</value>
   </data>
   <data name="SettingsPage_RepoLink.Content" xml:space="preserve">
     <value>仓库地址</value>
@@ -201,7 +201,7 @@
     <value>了解</value>
   </data>
   <data name="InvalidString" xml:space="preserve">
-    <value>结果出错</value>
+    <value>数值不合法</value>
   </data>
   <data name="ButtonMr.ToolTipService.ToolTip" xml:space="preserve">
     <value>记忆调用 (Ctrl+R)</value>
@@ -229,5 +229,32 @@
   </data>
   <data name="SelectorBarMemory.Text" xml:space="preserve">
     <value>记忆</value>
+  </data>
+  <data name="NotificationString_OpenFromNote_Title" xml:space="preserve">
+    <value>从通知打开</value>
+  </data>
+  <data name="NotificationString_OpenFromNote_Content" xml:space="preserve">
+    <value>您从系统通知中启动了计算器。</value>
+  </data>
+  <data name="NotificationString_OpenInvoked_Title" xml:space="preserve">
+    <value>调用通知打开</value>
+  </data>
+  <data name="NotificationString_OpenInvoked_Content" xml:space="preserve">
+    <value>您在程序运行时，由系统通知调用了本程序。</value>
+  </data>
+  <data name="MemoryEmptyNotice.Text" xml:space="preserve">
+    <value>内存中未保存任何内容。</value>
+  </data>
+  <data name="HistoryEmptyNotice.Text" xml:space="preserve">
+    <value>尚无历史记录。</value>
+  </data>
+  <data name="CopyString.Text" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="PasteString.Text" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="DeleteString.Text" xml:space="preserve">
+    <value>删除</value>
   </data>
 </root>

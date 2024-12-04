@@ -54,10 +54,10 @@
 
             <TextBlock
                 x:Name="HistoryEmptyNotice"
+                x:Uid="HistoryEmptyNotice"
                 Margin="12,8,24,0"
                 Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                 Style="{ThemeResource BodyTextBlockStyle}"
-                Text="No history available"
                 TextWrapping="Wrap"
                 Visibility="Collapsed" />
 
@@ -100,13 +100,13 @@
                             <StackPanel.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem
+                                        x:Uid="CopyString"
                                         Click="HistoryCopy_Click"
-                                        Icon="Copy"
-                                        Text="复制" />
+                                        Icon="Copy" />
                                     <MenuFlyoutItem
+                                        x:Uid="DeleteString"
                                         Click="HistoryDelete_Click"
-                                        Icon="Delete"
-                                        Text="删除" />
+                                        Icon="Delete" />
                                 </MenuFlyout>
                             </StackPanel.ContextFlyout>
                         </StackPanel>
