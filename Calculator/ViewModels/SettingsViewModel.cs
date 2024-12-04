@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 
 using Windows.ApplicationModel;
-using Calculator.Services;
 
 namespace Calculator.ViewModels;
 

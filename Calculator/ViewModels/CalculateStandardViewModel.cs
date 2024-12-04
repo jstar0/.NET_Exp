@@ -2,18 +2,11 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
-using Calculator.Contracts.Services;
 using Calculator.Core.Contracts.Services;
 using Calculator.Core.Models;
-using Calculator.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
-using Calculator.Helpers;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Specialized;
 
 namespace Calculator.ViewModels;
 
@@ -30,7 +23,7 @@ public partial class CalculateStandardViewModel : ObservableRecipient
     public ObservableCollection<MemoryModel> Memory => _memoryService.Memory;
 
     #region Old Memory Reverse Method
-    
+
     /*private ObservableCollection<MemoryModel>? _reversedMemory;
     public ObservableCollection<MemoryModel> ReversedMemory
     {

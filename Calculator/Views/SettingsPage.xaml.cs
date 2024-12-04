@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using Windows.ApplicationModel.Core;
-using Calculator.Contracts.Services;
+﻿using Calculator.Contracts.Services;
 using Calculator.Helpers;
-using Calculator.Services;
 using Calculator.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

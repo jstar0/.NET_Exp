@@ -1,22 +1,11 @@
-﻿using System.Globalization;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Calculator.ViewModels;
-
-using Microsoft.UI.Xaml.Controls;
-using Calculator.Contracts.Services;
-using Microsoft.UI.Xaml;
-using Calculator.Helpers;
-using Calculator.Services;
+﻿using System.Collections.Specialized;
 using Calculator.Behaviors;
-using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Hosting;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
+using Calculator.ViewModels;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Automation.Peers;
-using System.Collections.Specialized;
-using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Media.Animation;
+using Windows.System;
 
 namespace Calculator.Views;
 
@@ -93,8 +82,8 @@ public sealed partial class CalculateStandardPage : Page
 
         var pageType = currentSelectedIndex switch
         {
-            0 => typeof(HistoryPage),
-            _ => typeof(MemoryPage)
+            0 => typeof(StandardHistoryMemory.HistoryPage),
+            _ => typeof(StandardHistoryMemory.MemoryPage)
         };
 
         var slideNavigationTransitionEffect = currentSelectedIndex - _previousSelectedIndex > 0 ? SlideNavigationTransitionEffect.FromRight : SlideNavigationTransitionEffect.FromLeft;

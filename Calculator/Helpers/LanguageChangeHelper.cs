@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Calculator.Services;
-using Calculator.ViewModels;
-using Calculator.Views;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using static Calculator.Contracts.Services.ILanguageService;
+﻿using static Calculator.Contracts.Services.ILanguageService;
 
 namespace Calculator.Helpers;
 public static class LanguageChangeHelper

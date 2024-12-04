@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Microsoft.Windows.ApplicationModel.Resources;
+﻿using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace Calculator.Helpers;
 

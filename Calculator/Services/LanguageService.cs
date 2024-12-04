@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Calculator.Contracts.Services;
+﻿using Calculator.Contracts.Services;
 using Calculator.Helpers;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using static Calculator.Contracts.Services.ILanguageService;
 
 namespace Calculator.Services;

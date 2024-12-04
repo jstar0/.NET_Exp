@@ -37,10 +37,10 @@ public class AppNotificationService : IAppNotificationService
         // Navigate to a specific page based on the notification arguments.
         if (ParseArguments(args.Argument)["action"] == "Settings")
         {
-           App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-           {
-               _navigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
-           });
+            App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+            {
+                _navigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            });
         }
 
         App.MainWindow.DispatcherQueue.TryEnqueue(() =>

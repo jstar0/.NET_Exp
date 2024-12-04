@@ -1,5 +1,4 @@
-﻿using Calculator.Behaviors;
-using Calculator.Helpers;
+﻿using Calculator.Helpers;
 using Calculator.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using System.Threading.Tasks;
-using Calculator.Core.Contracts.Services;
+﻿using Calculator.Core.Contracts.Services;
 using Calculator.Core.Helpers;
 using Calculator.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using String = System.String;
 
 namespace Calculator.Core.Services;
 public partial class CalculateService : ObservableObject, ICalculateService
@@ -72,7 +62,7 @@ public partial class CalculateService : ObservableObject, ICalculateService
         }
 
         Calculate.Result = Calculate.Result.Length > 1
-            ? Calculate.Result.Substring(0, Calculate.Result.Length - 1)
+            ? Calculate.Result[..^1]
             : "0";
     }
 
@@ -102,7 +92,7 @@ public partial class CalculateService : ObservableObject, ICalculateService
             return;
         }
 
-        this.C();
+        C();
     }
 
     public void C()
@@ -199,7 +189,7 @@ public partial class CalculateService : ObservableObject, ICalculateService
             return;
         }
 
-        if (Calculate.Operator == OperatorType.Divide && (Calculate.Operand2 == "0" || 
+        if (Calculate.Operator == OperatorType.Divide && (Calculate.Operand2 == "0" ||
                                                           (Calculate.Operand2 == null && Calculate.Result == "0")))
         {
             Calculate.Result = "N/A";

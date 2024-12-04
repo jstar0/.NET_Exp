@@ -1,15 +1,11 @@
-﻿using System.Diagnostics;
-using Calculator.Contracts.Services;
+﻿using Calculator.Contracts.Services;
 using Calculator.Core.Contracts.Services;
 using Calculator.Core.Helpers;
 using Calculator.Helpers;
 using Calculator.Models;
 
 using Microsoft.Extensions.Options;
-
-using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.System;
 
 namespace Calculator.Services;
 

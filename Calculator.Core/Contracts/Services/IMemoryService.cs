@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Calculator.Core.Models;
 
 namespace Calculator.Core.Contracts.Services;
 public interface IMemoryService
 {
-    ObservableCollection<MemoryModel> Memory { get; }
+    ObservableCollection<MemoryModel> Memory
+    {
+        get;
+    }
 
     void MemoryButtonMc();
 
