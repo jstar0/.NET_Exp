@@ -145,13 +145,14 @@
     <value>关于本程序</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>本程序是由 于景一 23090032047 制作的，基于 WinUI 3 实现的计算器。&#x0a;仿照了官方的标准计算器实现。</value>
+    <value>本程序是由 于景一 23090032047 制作的，基于 WinUI 3 实现的计算器。
+仿照了官方的标准计算器实现。</value>
   </data>
   <data name="SettingsPage_RepoLink.Content" xml:space="preserve">
     <value>仓库地址</value>
   </data>
   <data name="SettingsPage_RepoLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>https://github.com/jstar0/.NET_Exp/tree/Calculator</value>
   </data>
   <data name="AppNotificationSamplePayload" xml:space="preserve">
     <value>&lt;toast launch="action=ToastClick"&gt;

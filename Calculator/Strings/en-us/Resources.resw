@@ -151,7 +151,7 @@
     <value>Repo Link</value>
   </data>
   <data name="SettingsPage_RepoLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>https://github.com/jstar0/.NET_Exp/tree/Calculator</value>
   </data>
   <data name="AppNotificationSamplePayload" xml:space="preserve">
     <value>&lt;toast launch="action=ToastClick"&gt;
