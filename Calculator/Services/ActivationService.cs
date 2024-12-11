@@ -19,7 +19,10 @@ public class ActivationService : IActivationService
     private readonly ICalculateService _calculateService;
     private UIElement? _shell = null;
 
-    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler, IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService, ILanguageService languageService, IHistoryService historyService, ICalculateService calculateService, IMemoryService memoryService)
+    public ActivationService(ActivationHandler<LaunchActivatedEventArgs> defaultHandler,
+        IEnumerable<IActivationHandler> activationHandlers, IThemeSelectorService themeSelectorService,
+        ILanguageService languageService, IHistoryService historyService, ICalculateService calculateService,
+        IMemoryService memoryService)
     {
         _defaultHandler = defaultHandler;
         _activationHandlers = activationHandlers;

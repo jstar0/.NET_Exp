@@ -3,10 +3,10 @@ public class HistoryModel
 {
     public string Expression
     {
-        get; set;
+        get; init;
     }
     public string Result
     {
-        get; set;
+        get; init;
     }
 }

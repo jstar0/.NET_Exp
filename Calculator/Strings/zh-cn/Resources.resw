@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>计算器</value>
+    <value>计算器 JStar</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>Calculator</value>
+    <value>本程序是由 JStar0  制作的，仿照了官方的标准计算器实现。</value>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
     <value>主页</value>

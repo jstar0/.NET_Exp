@@ -6,9 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Calculator.Core.Services;
 public partial class CalculateService : ObservableObject, ICalculateService
 {
-    // 一般的，进行 Result Operator Operand 的计算，需求 Operator 和 Operand，并将更改应用到 Result 和 Expression
-    // 特别的，对于 Invert XPower2 Sqrt 三个操作符，只更改 Result 和 Expression
-
     [ObservableProperty]
     private CalculateModel _calculate = new()
     {
@@ -145,12 +142,12 @@ public partial class CalculateService : ObservableObject, ICalculateService
 
         if (Calculate.Operator != OperatorType.Null)
         {
-            Calculate.Operand1 = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Result,
+            Calculate.Result = Calculate.Operand1 = CalculateBetweenString.GetStringResult(Calculate.Operand1, Calculate.Result,
                 Calculate.Operator);
         }
         else
         {
-            Calculate.Operand1 = Calculate.Result;
+            Calculate.Result = Calculate.Operand1 = Calculate.Result;
         }
 
         Calculate.Operator = operatorType;
