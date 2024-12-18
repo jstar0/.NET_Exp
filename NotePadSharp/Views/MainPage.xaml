@@ -6,7 +6,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="Blue">
+        <Grid x:Name="ContentArea">
+            <StackPanel>
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+            </StackPanel>
+            <Button />
+        </Grid>
     </Grid>
 </Page>
