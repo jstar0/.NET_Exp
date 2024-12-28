@@ -42,6 +42,9 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
+        var mainNotificationService = App.GetService<IMainNotificationService>();
+        mainNotificationService.SetNotificationQueue(NotificationQueue);
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

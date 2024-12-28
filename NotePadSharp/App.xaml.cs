@@ -65,6 +65,12 @@ public partial class App : Application
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
+            // NotificationMainService
+            services.AddSingleton<IMainNotificationService, MainNotificationService>();
+
+            // RichEditBoxService
+            services.AddSingleton<IRichEditBoxService, RichEditBoxService>();
+
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 

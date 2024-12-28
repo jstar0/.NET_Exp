@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:NotePadSharp.Behaviors"
+    xmlns:behaviors1="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:NotePadSharp.Helpers"
@@ -49,8 +50,14 @@
                 </controls:TabbedCommandBar.AutoSuggestBox>
                 <controls:TabbedCommandBar.PaneFooter>
                     <CommandBar Background="Transparent" DefaultLabelPosition="Right">
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE8E5;}" Label="Open" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE74E;}" Label="Save" />
+                        <AppBarButton
+                            Command="{x:Bind ViewModel.OnFileOpen}"
+                            Icon="{ui:FontIcon Glyph=&#xE8E5;}"
+                            Label="Open" />
+                        <AppBarButton
+                            Command="{x:Bind ViewModel.OnFileSave}"
+                            Icon="{ui:FontIcon Glyph=&#xE74E;}"
+                            Label="Save" />
                         <AppBarButton Icon="{ui:FontIcon Glyph=&#xE7C3;}" Label="New" />
                         <AppBarButton Icon="{ui:FontIcon Glyph=&#xE72D;}" Label="Share" />
                     </CommandBar>
@@ -96,6 +103,22 @@
                             Width="40"
                             muxc:ToolTipService.ToolTip="Strikethrough"
                             Icon="{ui:FontIcon Glyph=&#xEDE0;}"
+                            LabelPosition="Collapsed" />
+                        <AppBarSeparator />
+                        <AppBarToggleButton
+                            Width="40"
+                            muxc:ToolTipService.ToolTip="Align Left"
+                            Icon="{ui:FontIcon Glyph=&#xE8E4;}"
+                            LabelPosition="Collapsed" />
+                        <AppBarToggleButton
+                            Width="40"
+                            muxc:ToolTipService.ToolTip="Align Center"
+                            Icon="{ui:FontIcon Glyph=&#xE8E3;}"
+                            LabelPosition="Collapsed" />
+                        <AppBarToggleButton
+                            Width="40"
+                            muxc:ToolTipService.ToolTip="Align Right"
+                            Icon="{ui:FontIcon Glyph=&#xE8E2;}"
                             LabelPosition="Collapsed" />
                     </controls:TabbedCommandBarItem>
                     <controls:TabbedCommandBarItem x:Name="TabbedCommandBarInsert" Header="Insert">
@@ -153,7 +176,17 @@
                 Margin="10,100,10,10"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <Frame x:Name="NavigationFrame" />
+                <InfoBar
+                    MaxWidth="480"
+                    Margin="24"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Canvas.ZIndex="10">
+                    <i:Interaction.Behaviors>
+                        <behaviors1:StackedNotificationsBehavior x:Name="NotificationQueue" />
+                    </i:Interaction.Behaviors>
+                </InfoBar>
+                <Frame x:Name="NavigationFrame" Canvas.ZIndex="5" />
             </Grid>
         </Grid>
     </Grid>

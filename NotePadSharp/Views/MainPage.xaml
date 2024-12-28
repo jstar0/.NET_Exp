@@ -2,24 +2,20 @@
     x:Class="NotePadSharp.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="Blue">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid x:Name="ContentArea">
-            <StackPanel>
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-            </StackPanel>
-            <Button />
+            <RichEditBox
+                x:Name="Editor"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                GotFocus="Editor_GotFocus"
+                TextChanged="Editor_TextChanged" />
         </Grid>
     </Grid>
 </Page>
