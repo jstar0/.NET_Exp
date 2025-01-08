@@ -11,6 +11,8 @@ using NotePadSharp.Services;
 using NotePadSharp.ViewModels;
 
 using Windows.System;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace NotePadSharp.Views;
@@ -22,6 +24,8 @@ public sealed partial class ShellPage : Page
     {
         get;
     }
+
+    private readonly IRichEditBoxService _richEditBoxService;
 
     public bool ContextualItem => true;
 
@@ -45,6 +49,11 @@ public sealed partial class ShellPage : Page
 
         var mainNotificationService = App.GetService<IMainNotificationService>();
         mainNotificationService.SetNotificationQueue(NotificationQueue);
+
+        _richEditBoxService = App.GetService<IRichEditBoxService>();
+
+        _richEditBoxService.UndoRedoStateChanged += RichEditBoxService_UndoRedoStateChanged;
+        _richEditBoxService.SelectionChanged += RichEditBoxService_SelectionChanged;
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
@@ -100,5 +109,101 @@ public sealed partial class ShellPage : Page
         var result = navigationService.GoBack();
 
         args.Handled = result;
+    }
+
+    private void RichEditBoxService_UndoRedoStateChanged(object? sender, EventArgs e)
+    {
+        UndoButton.IsEnabled = _richEditBoxService.CanUndo;
+        RedoButton.IsEnabled = _richEditBoxService.CanRedo;
+    }
+
+    private void RichEditBoxService_SelectionChanged(object? sender, EventArgs e)
+    {
+        /*ColorPickerButton.SelectedColor = ;
+        FontComboBox.SelectedItem = ;
+        FontSizeTxtBox.SelectedText = ;
+        BoldToggleButton.IsChecked = ;
+        ItalicToggleButton.IsChecked = ;
+        UnderlineToggleButton = ;
+        StrikethroughToggleButton = ;
+        AlignLeftToggleButton = ;
+        AlignCenterToggleButton = ;
+        AlignRightToggleButton = ;*/
+
+        _richEditBoxService.IsUpdatingSelection = true;
+
+        try
+        {
+            var selection = _richEditBoxService.Editor.Document.Selection;
+            var charFormat = selection.CharacterFormat;
+
+            // 更新字体颜色
+            ColorPickerButton.SelectedColor = charFormat.ForegroundColor;
+
+            // 更新字体
+            if (!string.IsNullOrEmpty(charFormat.Name))
+            {
+                var fontFamily = FontComboBox.Items
+                    .Cast<FontFamily>()
+                    .FirstOrDefault(x => x.Source == charFormat.Name);
+                if (fontFamily != null)
+                {
+                    FontComboBox.SelectedItem = fontFamily;
+                }
+            }
+
+            // 更新字体大小
+            if (charFormat.Size > 0)
+            {
+                FontSizeTxtBox.Text = charFormat.Size.ToString();
+            }
+
+            // 更新字体样式
+            BoldToggleButton.IsChecked = charFormat.Bold == FormatEffect.On;
+            ItalicToggleButton.IsChecked = charFormat.Italic == FormatEffect.On;
+            UnderlineToggleButton.IsChecked = charFormat.Underline != UnderlineType.None;
+            StrikethroughToggleButton.IsChecked = charFormat.Strikethrough == FormatEffect.On;
+
+            // 更新对齐方式
+            var paraFormat = selection.ParagraphFormat;
+            AlignLeftToggleButton.IsChecked = paraFormat.Alignment == ParagraphAlignment.Left;
+            AlignCenterToggleButton.IsChecked = paraFormat.Alignment == ParagraphAlignment.Center;
+            AlignRightToggleButton.IsChecked = paraFormat.Alignment == ParagraphAlignment.Right;
+        }
+        finally
+        {
+            _richEditBoxService.IsUpdatingSelection = false;
+        }
+
+    }
+
+    private void FontComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_richEditBoxService.IsUpdatingSelection)
+        {
+            return;
+        }
+
+        if (sender is ComboBox { SelectedItem: Microsoft.UI.Xaml.Media.FontFamily selectedFont })
+        {
+            _richEditBoxService.Editor.Document.Selection.CharacterFormat.Name = selectedFont.Source;
+        }
+    }
+
+
+    private void FontSizeTxtBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (_richEditBoxService.IsUpdatingSelection)
+        {
+            return;
+        }
+
+        if (sender is TextBox { Text: string fontSizeText })
+        {
+            if (double.TryParse(fontSizeText, out var fontSize))
+            {
+                _richEditBoxService.Editor.Document.Selection.CharacterFormat.Size = (float)fontSize;
+            }
+        }
     }
 }

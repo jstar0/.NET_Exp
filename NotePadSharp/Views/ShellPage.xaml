@@ -58,71 +58,114 @@
                             Command="{x:Bind ViewModel.OnFileSave}"
                             Icon="{ui:FontIcon Glyph=&#xE74E;}"
                             Label="Save" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE7C3;}" Label="New" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE72D;}" Label="Share" />
+                        <AppBarButton
+                            Command="{x:Bind ViewModel.OnNewFile}"
+                            Icon="{ui:FontIcon Glyph=&#xE7C3;}"
+                            Label="New" />
+                        <AppBarButton
+                            Command="{x:Bind ViewModel.OnShare}"
+                            Icon="{ui:FontIcon Glyph=&#xE72D;}"
+                            Label="Share" />
                     </CommandBar>
                 </controls:TabbedCommandBar.PaneFooter>
                 <controls:TabbedCommandBar.MenuItems>
                     <controls:TabbedCommandBarItem x:Name="TabbedCommandBarHome" Header="Home">
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE7A7;}" Label="Undo" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE7A6;}" Label="Redo" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE77F;}" Label="Paste" />
+                        <AppBarButton
+                            x:Name="UndoButton"
+                            Command="{x:Bind ViewModel.OnUndo}"
+                            Icon="{ui:FontIcon Glyph=&#xE7A7;}"
+                            Label="Undo" />
+                        <AppBarButton
+                            x:Name="RedoButton"
+                            Command="{x:Bind ViewModel.OnRedo}"
+                            Icon="{ui:FontIcon Glyph=&#xE7A6;}"
+                            Label="Redo" />
+                        <AppBarButton
+                            Command="{x:Bind ViewModel.OnPaste}"
+                            Icon="{ui:FontIcon Glyph=&#xE77F;}"
+                            Label="Paste" />
                         <AppBarSeparator />
                         <AppBarElementContainer>
-                            <controls:ColorPickerButton SelectedColor="Black" />
+                            <controls:ColorPickerButton
+                                x:Name="ColorPickerButton"
+                                IsTabStop="False"
+                                SelectedColor="{x:Bind ViewModel.SelectedColor, Mode=TwoWay}" />
                         </AppBarElementContainer>
                         <AppBarElementContainer>
-                            <ComboBox MinWidth="175" SelectedIndex="0">
-                                <ComboBoxItem Content="Arial" />
-                                <ComboBoxItem Content="Calibri" />
-                                <ComboBoxItem Content="JetBrains Mono" />
-                                <ComboBoxItem Content="Roboto" />
-                                <ComboBoxItem Content="Segoe UI" />
-                                <ComboBoxItem Content="Segoe UI Semibold" />
+                            <ComboBox
+                                x:Name="FontComboBox"
+                                MinWidth="175"
+                                ItemsSource="{x:Bind ViewModel.SystemFonts}"
+                                SelectionChanged="FontComboBox_SelectionChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontFamily="{Binding Source}" Text="{Binding Source}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                         </AppBarElementContainer>
                         <AppBarElementContainer>
-                            <TextBox PlaceholderText="Size" />
+                            <TextBox
+                                x:Name="FontSizeTxtBox"
+                                PlaceholderText="Size"
+                                TextChanged="FontSizeTxtBox_OnTextChanged" />
                         </AppBarElementContainer>
                         <AppBarToggleButton
+                            x:Name="BoldToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Bold"
                             Icon="{ui:FontIcon Glyph=&#xE8DD;}"
+                            IsChecked="{x:Bind ViewModel.IsBold, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarToggleButton
+                            x:Name="ItalicToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Italic"
                             Icon="{ui:FontIcon Glyph=&#xE8DB;}"
+                            IsChecked="{x:Bind ViewModel.IsItalic, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarToggleButton
+                            x:Name="UnderlineToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Underline"
                             Icon="{ui:FontIcon Glyph=&#xE8DC;}"
+                            IsChecked="{x:Bind ViewModel.IsUnderline, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarToggleButton
+                            x:Name="StrikethroughToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Strikethrough"
                             Icon="{ui:FontIcon Glyph=&#xEDE0;}"
+                            IsChecked="{x:Bind ViewModel.IsStrikethrough, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarSeparator />
                         <AppBarToggleButton
+                            x:Name="AlignLeftToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Align Left"
                             Icon="{ui:FontIcon Glyph=&#xE8E4;}"
+                            IsChecked="{x:Bind ViewModel.IsAlignLeft, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarToggleButton
+                            x:Name="AlignCenterToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Align Center"
                             Icon="{ui:FontIcon Glyph=&#xE8E3;}"
+                            IsChecked="{x:Bind ViewModel.IsAlignCenter, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                         <AppBarToggleButton
+                            x:Name="AlignRightToggleButton"
                             Width="40"
                             muxc:ToolTipService.ToolTip="Align Right"
                             Icon="{ui:FontIcon Glyph=&#xE8E2;}"
+                            IsChecked="{x:Bind ViewModel.IsAlignRight, Mode=TwoWay}"
                             LabelPosition="Collapsed" />
                     </controls:TabbedCommandBarItem>
                     <controls:TabbedCommandBarItem x:Name="TabbedCommandBarInsert" Header="Insert">
-                        <AppBarButton Icon="Pictures" Label="Pictures">
+                        <AppBarButton
+                            Icon="Pictures"
+                            IsEnabled="False"
+                            Label="Pictures">
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                     <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xEC4E;}" Text="This device" />
@@ -131,13 +174,28 @@
                                 </MenuFlyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xF156;}" Label="Shapes" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xED58;}" Label="Icons" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xF158;}" Label="3D Models" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xF156;}"
+                            IsEnabled="False"
+                            Label="Shapes" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xED58;}"
+                            IsEnabled="False"
+                            Label="Icons" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xF158;}"
+                            IsEnabled="False"
+                            Label="3D Models" />
                         <AppBarSeparator />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xECAA;}" Label="Add-ins" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xECAA;}"
+                            IsEnabled="False"
+                            Label="Add-ins" />
                         <controls:TabbedCommandBarItem.SecondaryCommands>
-                            <AppBarButton Icon="{ui:FontIcon Glyph=&#xE710;}" Label="New item" />
+                            <AppBarButton
+                                Icon="{ui:FontIcon Glyph=&#xE710;}"
+                                IsEnabled="False"
+                                Label="New item" />
                         </controls:TabbedCommandBarItem.SecondaryCommands>
                     </controls:TabbedCommandBarItem>
                     <controls:TabbedCommandBarItem
@@ -145,9 +203,18 @@
                         Header="Picture Format"
                         IsContextual="True"
                         Visibility="{x:Bind ContextualItem, Mode=OneWay}">
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE706;}" Label="Remove background" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xF4A5;}" Label="Picture effects" />
-                        <AppBarButton Icon="{ui:FontIcon Glyph=&#xE7AD;}" Label="Rotate" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xE706;}"
+                            IsEnabled="False"
+                            Label="Remove background" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xF4A5;}"
+                            IsEnabled="False"
+                            Label="Picture effects" />
+                        <AppBarButton
+                            Icon="{ui:FontIcon Glyph=&#xE7AD;}"
+                            IsEnabled="False"
+                            Label="Rotate" />
                         <AppBarElementContainer>
                             <muxc:SplitButton>
                                 <StackPanel Orientation="Horizontal" Spacing="12">

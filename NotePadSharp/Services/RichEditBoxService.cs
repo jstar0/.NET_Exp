@@ -12,19 +12,21 @@ using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Text;
 
 namespace NotePadSharp.Services;
-public class RichEditBoxService: IRichEditBoxService
+public class RichEditBoxService(IMainNotificationService mainNotificationService) : IRichEditBoxService
 {
-    private IMainNotificationService _mainNotificationService;
-
-    public RichEditBoxService(IMainNotificationService mainNotificationService)
-    {
-        _mainNotificationService = mainNotificationService;
-    }
-
     // 存储 editor 的引用
     private RichEditBox? _editor;
 
     private string? _richTextContent;
+
+    public bool CanUndo => _editor != null && _editor.Document.CanUndo();
+
+    public bool CanRedo => _editor != null && _editor.Document.CanRedo();
+
+    public RichEditBox Editor
+    {
+        get => _editor;
+    }
 
     public void SetEditor(RichEditBox editor)
     {
@@ -71,8 +73,8 @@ public class RichEditBoxService: IRichEditBoxService
                 Duration = TimeSpan.FromSeconds(2)
             };
 
-            _mainNotificationService.ClearNotificationQueue();
-            _mainNotificationService.ShowNotification(notification);
+            mainNotificationService.ClearNotificationQueue();
+            mainNotificationService.ShowNotification(notification);
         }
         catch (Exception e)
         {
@@ -84,8 +86,8 @@ public class RichEditBoxService: IRichEditBoxService
                 Duration = TimeSpan.FromSeconds(2)
             };
 
-            _mainNotificationService.ClearNotificationQueue();
-            _mainNotificationService.ShowNotification(notification);
+            mainNotificationService.ClearNotificationQueue();
+            mainNotificationService.ShowNotification(notification);
         }
     }
 
@@ -111,8 +113,8 @@ public class RichEditBoxService: IRichEditBoxService
                 Duration = TimeSpan.FromSeconds(2)
             };
 
-            _mainNotificationService.ClearNotificationQueue();
-            _mainNotificationService.ShowNotification(notification);
+            mainNotificationService.ClearNotificationQueue();
+            mainNotificationService.ShowNotification(notification);
         }
         catch (Exception e)
         {
@@ -124,8 +126,74 @@ public class RichEditBoxService: IRichEditBoxService
                 Duration = TimeSpan.FromSeconds(2)
             };
 
-            _mainNotificationService.ClearNotificationQueue();
-            _mainNotificationService.ShowNotification(notification);
+            mainNotificationService.ClearNotificationQueue();
+            mainNotificationService.ShowNotification(notification);
         }
     }
+
+    public bool EditorContentEmpty()
+    {
+        if (_editor == null)
+        {
+            return true;
+        }
+
+        return !_editor.Document.CanUndo();
+    }
+
+    public void Undo()
+    {
+        if (_editor != null)
+        {
+            _editor.Document.Undo();
+        }
+    }
+
+    public void Redo()
+    {
+        if (_editor != null)
+        {
+            _editor.Document.Redo();
+        }
+    }
+
+    public void Paste()
+    {
+        if (_editor != null)
+        {
+            _editor.Document.Selection.Paste(0);
+        }
+    }
+
+    public void ClearNew()
+    {
+        _richTextContent = null;
+
+        if (_editor != null)
+        {
+            _editor.Document.SetText(TextSetOptions.None, string.Empty);
+        }
+
+        mainNotificationService.ClearNotificationQueue();
+    }
+
+    public event EventHandler UndoRedoStateChanged;
+
+    public virtual void PerformUndoRedoStatusChange()
+    {
+        UndoRedoStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public event EventHandler SelectionChanged;
+
+    public virtual void OnSelectionChanged()
+    {
+        SelectionChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool IsUpdatingSelection
+    {
+        get;
+        set;
+    } = false;
 }

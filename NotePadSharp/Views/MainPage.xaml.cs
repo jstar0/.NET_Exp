@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using NotePadSharp.Contracts.Services;
+using NotePadSharp.Services;
 using NotePadSharp.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -23,9 +24,8 @@ public sealed partial class MainPage : Page
         InitializeComponent();
 
         ViewModel.SetEditor(Editor);
+        SetupDefaultFont();
     }
-
-
 
     private void Editor_GotFocus(object sender, RoutedEventArgs e)
     {
@@ -43,6 +43,8 @@ public sealed partial class MainPage : Page
 
     private void Editor_TextChanged(object sender, RoutedEventArgs e)
     {
+        ViewModel.RichEditBoxService.PerformUndoRedoStatusChange();
+
         var notification = new Notification
         {
             Title = $"提示 {DateTimeOffset.Now}",
@@ -50,6 +52,21 @@ public sealed partial class MainPage : Page
             Severity = InfoBarSeverity.Warning,
             Duration = TimeSpan.FromSeconds(1.5)
         };
-
     }
+
+    private void SetupDefaultFont()
+    {
+        if (Editor != null)
+        {
+            // 默认字体设为 Microsoft YaHei UI，字距为 10.5
+            Editor.Document.Selection.CharacterFormat.Name = "Microsoft YaHei UI";
+            Editor.Document.Selection.CharacterFormat.Size = 10.5f;
+        }
+    }
+
+    private void Editor_OnSelectionChanged(object sender, RoutedEventArgs e)
+    {
+        ViewModel.RichEditBoxService.OnSelectionChanged();
+    }
+
 }

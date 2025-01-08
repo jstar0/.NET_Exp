@@ -15,6 +15,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 GotFocus="Editor_GotFocus"
+                SelectionChanged="Editor_OnSelectionChanged"
                 TextChanged="Editor_TextChanged" />
         </Grid>
     </Grid>
